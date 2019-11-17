@@ -28,15 +28,19 @@ class Tank():
 
     def keyEventDown(self, event):
         if chr(event.key) == 'd':
+            self.stop_moving()
             self._move_right = True
             self.current_shift = 1
         elif chr(event.key) == 'a':
+            self.stop_moving()
             self._move_left = True
             self.current_shift = -1
         elif chr(event.key) == 'w':
+            self.stop_moving()
             self._move_up = True
             self.current_shift = 1
         elif chr(event.key) == 's':
+            self.stop_moving()
             self._move_down = True
             self.current_shift = -1
 
@@ -86,6 +90,12 @@ class Tank():
             self.tankrect.x = 0
         if self.tankrect.y < 0:
             self.tankrect.y = 0
+
+    def stop_moving(self):
+        self._move_down = False
+        self._move_left = False
+        self._move_right = False
+        self._move_left = False
 
 
 def game_test_loop():
