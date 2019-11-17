@@ -1,5 +1,7 @@
 import pygame
 
+from cell import Cell
+
 
 class Field:
     cells = dict()
@@ -9,6 +11,7 @@ class Field:
         self.level_path = level_path
         self.level = list()
         self.cells_init()
+        self.level_init()
 
     def cells_init(self):
         self.cells['0'] = Cell('sprites/blocks/0.png', self.screen)
@@ -25,43 +28,29 @@ class Field:
         self.cells['b'] = Cell('sprites/blocks/b.png', self.screen)
         self.cells['c'] = Cell('sprites/blocks/c.png', self.screen)
 
-    def draw_all(self):
+    def level_init(self):
+        # читаем уровень из файла и сохраняем его в level
         with open(self.level_path, 'r') as level_file:
-            # читаем уровень из файла и сохраняем его в level
             self.level = level_file.read().splitlines()
-            y = 0
-            for string in self.level:
-                x = 0
-                for char in string:
-                    self.draw_cell(char, x, y)
-                    x += 40
-                y += 40
+
+    def draw_all(self):
+        y = 0
+        for string in self.level:
+            x = 0
+            for char in string:
+                self.draw_cell(char, x, y)
+                x += 40
+            y += 40
 
     def draw_cell(self, char, x, y):
-        # отрисовка клетки.  Имя фотографии == значению char
+        # отрисовка клетки. Имя фотографии == значению char
         if char != 'd':
             if char in '05':
-                self.cells[char].draw(x + 20, y)
-            elif char in '05':
                 self.cells[char].draw(x + 20, y)
             elif char in '16':
                 self.cells[char].draw(x, y + 20)
             else:
                 self.cells[char].draw(x, y)
-
-
-class Cell:
-    def __init__(self, image_path, screen):
-        self.screen = screen
-        self.image = pygame.image.load(image_path)
-        self.rect = self.image.get_rect()
-        self.rect.x = 0
-        self.rect.y = 0
-
-    def draw(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
-        self.screen.blit(self.image, self.rect)
 
 
 size = width, height = 1000, 800
