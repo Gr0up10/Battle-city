@@ -7,7 +7,7 @@ black = 0, 0, 0
 
 
 def game_test_loop():
-    tank = playerTank()
+    tank = playerTank.PlayerTank()
     DEBUG = 0
     pygame.init()
     screen = pygame.display.set_mode(size)
