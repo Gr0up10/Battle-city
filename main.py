@@ -26,12 +26,6 @@ def game_test_loop():
 
         # Код отрисовки пишется здесь
         tank.draw(screen)
-        fontObj = pygame.font.Font('freesansbold.ttf', 50)
-        textSurfaceObj = fontObj.render(str(DEBUG), True, (255, 0, 0))
-        textRectObj = textSurfaceObj.get_rect()
-        textRectObj.center = (500, 400)
-
-        screen.blit(textSurfaceObj, textRectObj)
 
         tank.move()
 
