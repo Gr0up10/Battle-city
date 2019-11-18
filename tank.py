@@ -99,3 +99,13 @@ class Tank():
         self._move_right = False
         self._move_left = False
 
+    def current_state(self):
+        if self._move_right:
+            return 1
+        if self._move_up:
+            return 2
+        if self._move_left:
+            return 3
+        if self._move_down:
+            return 4
+
