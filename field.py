@@ -4,7 +4,7 @@ from cell import Cell
 
 
 class Field:
-    cells = dict()
+    blocks = dict()
 
     def __init__(self, level_path, screen):  # level - путь до файла с уровнем
         self.screen = screen
@@ -14,19 +14,19 @@ class Field:
         self.level_init()
 
     def cells_init(self):
-        self.cells['0'] = Cell('sprites/blocks/0.png', self.screen)
-        self.cells['1'] = Cell('sprites/blocks/1.png', self.screen)
-        self.cells['2'] = Cell('sprites/blocks/2.png', self.screen)
-        self.cells['3'] = Cell('sprites/blocks/3.png', self.screen)
-        self.cells['4'] = Cell('sprites/blocks/4.png', self.screen)
-        self.cells['5'] = Cell('sprites/blocks/5.png', self.screen)
-        self.cells['6'] = Cell('sprites/blocks/6.png', self.screen)
-        self.cells['7'] = Cell('sprites/blocks/7.png', self.screen)
-        self.cells['8'] = Cell('sprites/blocks/8.png', self.screen)
-        self.cells['9'] = Cell('sprites/blocks/9.png', self.screen)
-        self.cells['a'] = Cell('sprites/blocks/a.png', self.screen)
-        self.cells['b'] = Cell('sprites/blocks/b.png', self.screen)
-        self.cells['c'] = Cell('sprites/blocks/c.png', self.screen)
+        self.blocks['0'] = Cell('sprites/blocks/0.png', self.screen)
+        self.blocks['1'] = Cell('sprites/blocks/1.png', self.screen)
+        self.blocks['2'] = Cell('sprites/blocks/2.png', self.screen)
+        self.blocks['3'] = Cell('sprites/blocks/3.png', self.screen)
+        self.blocks['4'] = Cell('sprites/blocks/4.png', self.screen)
+        self.blocks['5'] = Cell('sprites/blocks/5.png', self.screen)
+        self.blocks['6'] = Cell('sprites/blocks/6.png', self.screen)
+        self.blocks['7'] = Cell('sprites/blocks/7.png', self.screen)
+        self.blocks['8'] = Cell('sprites/blocks/8.png', self.screen)
+        self.blocks['9'] = Cell('sprites/blocks/9.png', self.screen)
+        self.blocks['a'] = Cell('sprites/blocks/a.png', self.screen)
+        self.blocks['b'] = Cell('sprites/blocks/b.png', self.screen)
+        self.blocks['c'] = Cell('sprites/blocks/c.png', self.screen)
 
     def level_init(self):
         # читаем уровень из файла и сохраняем его в level
@@ -46,11 +46,11 @@ class Field:
         # отрисовка клетки. Имя фотографии == значению char
         if char != 'd':
             if char in '05':
-                self.cells[char].draw(x + 20, y)
+                self.blocks[char].draw(x + 20, y)
             elif char in '16':
-                self.cells[char].draw(x, y + 20)
+                self.blocks[char].draw(x, y + 20)
             else:
-                self.cells[char].draw(x, y)
+                self.blocks[char].draw(x, y)
 
 
 size = width, height = 1000, 800
