@@ -2,27 +2,25 @@ import pygame
 
 size = width, height = 800, 600
 
+class Tank:
+    def __init__(self, screen):
+        self.screen = screen
+        self._tank_u = pygame.image.load("sprites/tank/tank_u.png")
+        self._tank_d = pygame.image.load("sprites/tank/tank_d.png")
+        self._tank_r = pygame.image.load("sprites/tank/tank_r.png")
+        self._tank_l = pygame.image.load("sprites/tank/tank_l.png")
 
-class Tank():
-    _tank_u = pygame.image.load("./Sprites/tank_u.png")
-    _tank_d = pygame.image.load("./Sprites/tank_d.png")
-    _tank_r = pygame.image.load("./Sprites/tank_r.png")
-    _tank_l = pygame.image.load("./Sprites/tank_l.png")
+        self._move_right = False
+        self._move_left = False
+        self._move_up = False
+        self._move_down = False
+        self.current_shift = 2
 
-    _move_right = False
-    _move_left = False
-    _move_up = False
-    _move_down = False
-    current_shift = 0
+        self.tankrect = self._tank_u.get_rect()
+        self.tankrect.x = 100
+        self.tankrect.y = 100
 
-    tankrect = _tank_u.get_rect()
-    tankrect.x = 100
-    tankrect.y = 100
-
-    tank_pic = _tank_r
-
-    def __init__(self):
-        pass
+        self.tank_pic = self._tank_r
 
     def _go_left(self):
         self.stop_moving()
@@ -60,6 +58,14 @@ class Tank():
         self._move_down = False
         self.current_shift = 0
 
+    def _stop_moving(self):
+        self._move_right = False
+        self._move_left = False
+        self._move_up = False
+        self._move_down = False
+        self.current_shift = 0
+
+
     def draw(self, screen):
         screen.blit(self.tank_pic, self.tankrect)
 
@@ -93,6 +99,11 @@ class Tank():
         if self.tankrect.y < 0:
             self.tankrect.y = 0
 
+
+    def collision(self, block):
+        if block.is_wall:
+            print('collision tank and block')
+
     def stop_moving(self):
         self._move_down = False
         self._move_left = False
@@ -108,4 +119,3 @@ class Tank():
             return 3
         if self._move_down:
             return 4
-
