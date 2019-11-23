@@ -9,7 +9,8 @@ GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 WIDTH, HEIGHT = 800, 600
 
-def onePlayerLoop():
+
+def one_player_loop():
     all_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     field_sprites = pygame.sprite.Group()
 
@@ -55,7 +56,7 @@ def main():
     cmd = menu.show()
 
     if cmd == 1:
-        onePlayerLoop()
+        one_player_loop()
 
 
 if __name__ == '__main__':

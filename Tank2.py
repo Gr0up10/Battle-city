@@ -10,7 +10,7 @@ class Tank2(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 2
         self.direction = 0
-        self.image = pygame.Surface((32, 32))
+        self.image = pygame.Surface((40, 40))
         self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
