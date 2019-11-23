@@ -45,6 +45,13 @@ def one_player_loop():
         if pygame.sprite.spritecollideany(player, field_sprites):
             print('collision')
             player.is_able_to_move = False
+            
+        # коллизия снаряда с кирпичным блоком
+        if player.bullet_exist():
+            if pygame.sprite.spritecollideany(player.bullet, f.bricks):
+                pygame.sprite.spritecollide(player.bullet, field_sprites, 1)
+                pygame.sprite.spritecollide(player.bullet, f.bricks, 1)
+                player.bullet.kill()
 
         pygame.display.flip()
         pygame.time.wait(10)
