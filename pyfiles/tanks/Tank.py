@@ -1,11 +1,11 @@
 import pygame
-from Bullet import Bullet
+from pyfiles.tanks.Bullet import Bullet
 
 GREEN = (0, 255, 0)
 WIDTH, HEIGHT = 800, 600
 
 
-class Tank2(pygame.sprite.Sprite):
+class Tank(pygame.sprite.Sprite):
     def __init__(self, sprites_group):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 2

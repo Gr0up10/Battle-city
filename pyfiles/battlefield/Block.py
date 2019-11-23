@@ -3,7 +3,7 @@ import pygame
 block_size = 50
 
 
-class Block2(pygame.sprite.Sprite):
+class Block(pygame.sprite.Sprite):
     def __init__(self, image_path, x, y,is_wall=False):
         pygame.sprite.Sprite.__init__(self)
         self.image_path = image_path

@@ -1,8 +1,8 @@
 import pygame
 import sys
-from Player1Tank2 import Player1Tank2
-from field2 import field2
-from main_menu import Main_menu
+from pyfiles.tanks.Player1Tank import Player1Tank
+from pyfiles.battlefield.Field import Field
+from pyfiles.MainMenu import MainMenu
 size = width, height = 800, 600
 black = 0, 0, 0
 GREEN = (0, 255, 0)

@@ -2,7 +2,7 @@ import pygame
 from Tank2 import Tank2
 
 
-class Player1Tank2(Tank2):
+class Player1Tank(Tank):
     def __init__(self, sprites):
         super().__init__(sprites)
         self.image = pygame.image.load('sprites/tanks/players/up.png')

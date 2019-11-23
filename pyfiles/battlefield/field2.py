@@ -6,7 +6,7 @@ from block2 import Block2
 block_size = 50
 
 
-class field2:
+class field:
     #группа разрушаемых блоков
     bricks = pygame.sprite.Group()
     
