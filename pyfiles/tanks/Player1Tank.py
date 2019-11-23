@@ -5,7 +5,7 @@ from pyfiles.tanks.Tank import Tank
 class Player1Tank(Tank):
     def __init__(self, sprites):
         super().__init__(sprites)
-        self.image = pygame.image.load('sprites/tanks/players/up.png')
+        self.image = pygame.image.load('sprites/tank/tank_u.png')
 
     def update(self):
         self.deltaX = 0
@@ -13,16 +13,16 @@ class Player1Tank(Tank):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_a]:
             self.move_left()
-            self.image = pygame.image.load('sprites/tanks/players/left.png')
+            self.image = pygame.image.load('sprites/tank/tank_l.png')
         elif keystate[pygame.K_d]:
             self.move_right()
-            self.image = pygame.image.load('sprites/tanks/players/right.png')
+            self.image = pygame.image.load('sprites/tank/tank_r.png')
         elif keystate[pygame.K_w]:
             self.move_up()
-            self.image = pygame.image.load('sprites/tanks/players/up.png')
+            self.image = pygame.image.load('sprites/tank/tank_u.png')
         elif keystate[pygame.K_s]:
             self.move_down()
-            self.image = pygame.image.load('sprites/tanks/players/down.png')
+            self.image = pygame.image.load('sprites/tank/tank_d.png')
         if keystate[pygame.K_SPACE]:
             if not self.bullet_exist():
                 self.shoot()
