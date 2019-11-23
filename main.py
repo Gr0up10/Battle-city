@@ -2,15 +2,14 @@ import pygame
 import sys
 from Player1Tank2 import Player1Tank2
 from field2 import field2
-
+from main_menu import Main_menu
 size = width, height = 800, 600
 black = 0, 0, 0
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 WIDTH, HEIGHT = 800, 600
 
-
-def main():
+def onePlayerLoop():
     all_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     field_sprites = pygame.sprite.Group()
 
@@ -49,6 +48,14 @@ def main():
         pygame.display.flip()
         pygame.time.wait(10)
     sys.exit()
+
+
+def main():
+    menu = Main_menu()
+    cmd = menu.show()
+
+    if cmd == 1:
+        onePlayerLoop()
 
 
 if __name__ == '__main__':

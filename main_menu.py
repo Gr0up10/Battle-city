@@ -12,12 +12,13 @@ class Main_menu:
                        "brown": (153, 76, 0),
                        "grey": (100, 100, 100)}
         self.integ = 0
-        self.tank_imag = pygame.image.load('ndkiHHITqSY.jpg')
+        self.tank_imag = pygame.image.load('sprites/tank_for_menu.jpg')
         self.tank_rect = self.tank_imag.get_rect()
         self.tank_rect.x= 150
         self.tank_rect.y= 155
         self.ra =150
         self.screen = pygame.display.set_mode(self.size)
+
     def show(self):
         pygame.init()
         pygame.font.init()
@@ -37,7 +38,6 @@ class Main_menu:
                 if event.type == pygame.QUIT:
                     game_over = True
 
-
                 elif event.type == pygame.KEYDOWN:
 
                     if chr(event.key) == 'w':
@@ -55,6 +55,9 @@ class Main_menu:
                         self.tank_rect.y = 305
                     elif self.integ == 2:
                         self.tank_rect.y = 455
+
+                    if event.key == 32 or event.key == pygame.K_RETURN:
+                        return 1
                     # блок для функций
             # if integ == 0 and chr(event.key) == 'space' or chr(event.key) == 'enter':
             #      onePlayerGame() # 1 игрок
