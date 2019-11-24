@@ -27,7 +27,7 @@ class Tank(pygame.sprite.Sprite):
         self.deltaY = 0
         # if not self.__bullet_exist():
         #      self.shoot()
-        self.__check_collisions()
+        self.check_collisions()
 
     def move_left(self):
         self.deltaX = -self.speed
@@ -45,22 +45,28 @@ class Tank(pygame.sprite.Sprite):
         self.deltaY = self.speed
         self.direction = 2
 
-    def check_collisions(self):
-        if self.is_able_to_move:
-            self.backupXY = self.rect.x, self.rect.y
-            self.rect.x += self.deltaX
-            self.rect.y += self.deltaY
+    def check_collisions(self, field_sprites=None):
+        if field_sprites != None:
+           if pygame.sprite.spritecollideany(self, field_sprites):
+               print('collision')
+               self.is_able_to_move = False
+               self.rect.x, self.rect.y = self.backupXY
         else:
-            self.is_able_to_move = True
-            self.rect.x,  self.rect.y = self.backupXY
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.bottom > HEIGHT:
-            self.rect.bottom = HEIGHT
-        if self.rect.top < 0:
-            self.rect.top = 0
+            if self.is_able_to_move:
+                self.backupXY = self.rect.x, self.rect.y
+                self.rect.x += self.deltaX
+                self.rect.y += self.deltaY
+            else:
+                self.is_able_to_move = True
+                self.rect.x, self.rect.y = self.backupXY
+            if self.rect.right > WIDTH:
+                self.rect.right = WIDTH
+            if self.rect.left < 0:
+                self.rect.left = 0
+            if self.rect.bottom > HEIGHT:
+                self.rect.bottom = HEIGHT
+            if self.rect.top < 0:
+                self.rect.top = 0
 
     def bullet_exist(self):
         if self.sprites.has(self.bullet):

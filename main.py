@@ -38,14 +38,18 @@ def one_player_loop():
 
         screen.fill(black)
 
-        # Код отрисовки пишется здесь
+        # коллизия танка со стенами
+
+        player.check_collisions(field_sprites)
+
+        #if pygame.sprite.spritecollideany(player, field_sprites):
+         #  print('collision')
+          # player.is_able_to_move = False
+
         field_sprites.draw(screen)
         all_sprites.draw(screen)
 
-        # коллизия танка со стенами
-        if pygame.sprite.spritecollideany(player, field_sprites):
-            print('collision')
-            player.is_able_to_move = False
+
 
         # коллизия снаряда с кирпичным блоком
         if player.bullet_exist():
