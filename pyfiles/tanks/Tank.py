@@ -21,13 +21,16 @@ class Tank(pygame.sprite.Sprite):
         self.sprites = sprites_group
         self.backupXY = self.rect.x, self.rect.y
         self.is_able_to_move = True
+        self.shooting_cooldown = 0
 
     def update(self):
-        self.deltaX = 0
-        self.deltaY = 0
+        #self.deltaX = 0
+        #self.deltaY = 0
         # if not self.__bullet_exist():
         #      self.shoot()
-        self.check_collisions()
+        if self.shooting_cooldown > 0:
+            self.shooting_cooldown -= 1
+        #self.check_collisions()
 
     def move_left(self):
         self.deltaX = -self.speed
@@ -74,5 +77,7 @@ class Tank(pygame.sprite.Sprite):
             return False
 
     def shoot(self):
-        self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-        self.sprites.add(self.bullet)
+        if self.shooting_cooldown == 0:
+            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(self.bullet)
+            self.shooting_cooldown = 50

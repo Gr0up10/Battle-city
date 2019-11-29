@@ -19,7 +19,6 @@ def one_player_loop():
 
     f = Field()  # инициализация поля, загрузка в field_sprites
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
-    print(field_sprites)
 
     player = Player1Tank(all_sprites)  # инициализация танка игрока
 

@@ -8,6 +8,7 @@ class Player1Tank(Tank):
         self.image = pygame.image.load('sprites/tank/tank_u.png')
 
     def update(self):
+        super().update()
         self.deltaX = 0
         self.deltaY = 0
         keystate = pygame.key.get_pressed()
