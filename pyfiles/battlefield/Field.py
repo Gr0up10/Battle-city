@@ -15,6 +15,9 @@ class Field:
     plants = pygame.sprite.Group()
     #группа для воды
     water = pygame.sprite.Group()
+    #группа для базы
+    base = pygame.sprite.Group()
+
     
     def __init__(self, level_path='levels/level_1.txt'):
         self.level_path = level_path
@@ -34,7 +37,7 @@ class Field:
             for char in string:
                 if char != 'd':
                     img_path = 'sprites/blocks/' + char + '.png'
-                    if char in ('0','1','2','3','4','s'):
+                    if char in ('0','1','2','3','4'):
                         self.bricks.add(Block(img_path, x * block_size, y * block_size))
                     elif char in ('9','5','6','7','8','c'):
                         self.unbreakable.add(Block(img_path, x * block_size, y * block_size))
@@ -42,6 +45,8 @@ class Field:
                         self.plants.add(Block(img_path, x * block_size, y * block_size))
                     elif char == 'a':
                         self.water.add(Block(img_path, x * block_size, y * block_size))
+                    elif char == 's':
+                        self.base.add(Block(img_path, x * block_size, y * block_size))
                 x += 1
             y += 1
 
@@ -52,5 +57,7 @@ class Field:
         for b in self.unbreakable:
             field_sprites.add(b)
         for b in self.water:
+            field_sprites.add(b)
+        for b in self.base:
             field_sprites.add(b)
         return field_sprites

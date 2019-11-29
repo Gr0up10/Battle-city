@@ -37,9 +37,9 @@ class Game_over:
             screen.blit(ts0, (70, 200))
 
             pygame.display.flip()
-            pygame.time.wait(10)
+            pygame.time.wait(1000)
+            game_over = True
 
-        sys.exit(0)
 
 
 def main():

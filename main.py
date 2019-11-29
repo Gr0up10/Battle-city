@@ -3,6 +3,7 @@ import sys
 from pyfiles.tanks.Player1Tank import Player1Tank
 from pyfiles.battlefield.Field import Field
 from pyfiles.MainMenu import MainMenu
+from pyfiles.Game_over import Game_over
 
 size = width, height = 800, 600
 black = 0, 0, 0
@@ -52,17 +53,25 @@ def one_player_loop():
                 field_sprites = f.init_field_sprites_group()
                 player.bullet.kill()
 
+        #коллизия с базой
+        if player.bullet_exist():
+            if pygame.sprite.spritecollideany(player.bullet, f.base):
+                pygame.sprite.spritecollide(player.bullet, f.base, 1)
+                game_over = True
+                game_over1 = Game_over()
+                game_over1.show()
+
         pygame.display.flip()
         pygame.time.wait(10)
-    sys.exit()
 
 
 def main():
-    menu = MainMenu()
-    cmd = menu.show()
+    while True:
+        menu = MainMenu()
+        cmd = menu.show()
 
-    if cmd == 1:
-        one_player_loop()
+        if cmd == 1:
+            one_player_loop()
 
 
 if __name__ == '__main__':
