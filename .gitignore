@@ -6,9 +6,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.idea
-.idea/battle-city.iml
-.iade/misc.xml
+
 # C extensions
 *.so
 

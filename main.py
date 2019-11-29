@@ -19,6 +19,7 @@ def one_player_loop():
 
     f = Field()  # инициализация поля, загрузка в field_sprites
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
+    decorate = f.plants #группа декоративных спрайтов
 
     player = Player1Tank(all_sprites)  # инициализация танка игрока
 
@@ -42,10 +43,11 @@ def one_player_loop():
 
         field_sprites.draw(screen)
         all_sprites.draw(screen)
+        decorate.draw(screen)
 
         # коллизия снаряда с кирпичным блоком
         if player.bullet_exist():
-            if pygame.sprite.spritecollideany(player.bullet, field_sprites):
+            if pygame.sprite.spritecollideany(player.bullet, f.bricks) or pygame.sprite.spritecollideany(player.bullet, f.unbreakable):
                 pygame.sprite.spritecollide(player.bullet, f.bricks, 1)
                 field_sprites = f.init_field_sprites_group()
                 player.bullet.kill()
