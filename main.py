@@ -13,14 +13,13 @@ WIDTH, HEIGHT = 800, 600
 
 def one_player_loop():
     all_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
-    field_sprites = pygame.sprite.Group()
 
     pygame.init()
     screen = pygame.display.set_mode(size)  # инициализация pygame
 
     f = Field()  # инициализация поля, загрузка в field_sprites
-    for b in f.blocks:
-        field_sprites.add(b)
+    field_sprites = f.init_field_sprites_group() # группа спрайтов поля
+    print(field_sprites)
 
     player = Player1Tank(all_sprites)  # инициализация танка игрока
 
@@ -42,20 +41,14 @@ def one_player_loop():
 
         player.check_collisions(field_sprites)
 
-        #if pygame.sprite.spritecollideany(player, field_sprites):
-         #  print('collision')
-          # player.is_able_to_move = False
-
         field_sprites.draw(screen)
         all_sprites.draw(screen)
 
-
-
         # коллизия снаряда с кирпичным блоком
         if player.bullet_exist():
-            if pygame.sprite.spritecollideany(player.bullet, f.bricks):
-                pygame.sprite.spritecollide(player.bullet, field_sprites, 1)
+            if pygame.sprite.spritecollideany(player.bullet, field_sprites):
                 pygame.sprite.spritecollide(player.bullet, f.bricks, 1)
+                field_sprites = f.init_field_sprites_group()
                 player.bullet.kill()
 
         pygame.display.flip()

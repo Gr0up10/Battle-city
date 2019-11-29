@@ -48,7 +48,6 @@ class Tank(pygame.sprite.Sprite):
     def check_collisions(self, field_sprites=None):
         if field_sprites != None:
            if pygame.sprite.spritecollideany(self, field_sprites):
-               print('collision')
                self.is_able_to_move = False
                self.rect.x, self.rect.y = self.backupXY
         else:
