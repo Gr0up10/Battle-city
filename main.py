@@ -53,7 +53,7 @@ def one_player_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-        if ticks >= 5000:
+        if ticks >= 500:
             for enemy in enemy_list:
                 if not enemy.isAlive:
                     #print(enemy_list[enemy])
