@@ -1,5 +1,4 @@
 import pygame
-import sys
 from pyfiles.tanks.Player1Tank import Player1Tank
 from pyfiles.battlefield.Field import Field
 from pyfiles.MainMenu import MainMenu
@@ -7,9 +6,6 @@ from pyfiles.Game_over import Game_over
 
 size = width, height = 800, 600
 black = 0, 0, 0
-GREEN = (0, 255, 0)
-YELLOW = (255, 255, 0)
-WIDTH, HEIGHT = 800, 600
 
 
 def one_player_loop():
@@ -39,26 +35,26 @@ def one_player_loop():
         screen.fill(black)
 
         # коллизия танка со стенами
-
         player.check_collisions(field_sprites)
 
+        # отрисовка
         field_sprites.draw(screen)
         all_sprites.draw(screen)
         decorate.draw(screen)
 
-        # коллизия снаряда с кирпичным блоком
+        # коллизия снаряда с блоком
         if player.bullet_exist():
             if pygame.sprite.spritecollideany(player.bullet, f.bricks) or pygame.sprite.spritecollideany(player.bullet, f.unbreakable):
-                pygame.sprite.spritecollide(player.bullet, f.bricks, 1)
-                field_sprites = f.init_field_sprites_group()
-                player.bullet.kill()
+                pygame.sprite.spritecollide(player.bullet, f.bricks, 1) #уничтожить блок
+                field_sprites = f.init_field_sprites_group()            #изменить поле
+                player.bullet.kill()                                    #уничтожить снаряд
 
-        #коллизия с базой
+        # коллизия с базой
         if player.bullet_exist():
             if pygame.sprite.spritecollideany(player.bullet, f.base):
                 pygame.sprite.spritecollide(player.bullet, f.base, 1)
-                game_over = True
-                game_over1 = Game_over()
+                game_over = True                                        #завершить цикл
+                game_over1 = Game_over()                                #отрисовка экрана Game Over
                 game_over1.show()
 
         pygame.display.flip()
