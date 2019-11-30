@@ -8,6 +8,11 @@ from pyfiles.tanks.Enemy import Enemy
 size = width, height = 800, 600
 black = 0, 0, 0
 
+def game_over_screen():
+    screen = Game_over()
+    screen.show()
+    return True
+
 
 def merge_sprites_group(tanks, field):
     all_sprites = pygame.sprite.Group()
@@ -115,10 +120,11 @@ def one_player_loop():
             for b in bullets:           # коллизия снаряда и противника
                 if pygame.sprite.spritecollide(b, tanks_sprites, True):
                     print('enemy destroyed')
-                    tanks_sprites.remove(enemy)
                     b.kill()
-                    enemy = Enemy(bullets_group, bullets)
-                    tanks_sprites.add(enemy)
+                    for enemy in enemy_list:
+                        if not enemy.isAlive:
+                            enemy = Enemy(bullets_group, bullets, 40, 40)
+                            tanks_sprites.add(enemy)
 
         pygame.display.flip()
         pygame.time.wait(10)
