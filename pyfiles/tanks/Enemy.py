@@ -7,14 +7,14 @@ block_size = 40
 
 
 class Enemy(Tank):
-    def __init__(self, sprites, bullets):
+    def __init__(self, sprites, bullets,x,y):
         pic_u = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_u.png'), (block_size, block_size))
         pic_r = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_r.png'), (block_size, block_size))
         pic_d = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_d.png'), (block_size, block_size))
         pic_l = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_l.png'), (block_size, block_size))
         super().__init__(sprites, bullets, pic_u, pic_l, pic_d, pic_r)
-        self.rect.centerx = 4.5 * 50
-        self.rect.bottom = 140
+        self.rect.centerx = x
+        self.rect.bottom = y
         self.distance = 0
         self.cmd_choice = 0
 
