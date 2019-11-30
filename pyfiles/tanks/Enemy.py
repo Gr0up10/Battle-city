@@ -23,13 +23,9 @@ class Enemy(Tank):
         self.deltaX = 0
         self.deltaY = 0
         self.choose_cmd()
-
+        # выбирает стрелять или нет. Шанс 1 к 11
         if self.cmd_choice is 1:
             self.shoot()
-            # self.cmd_choice = 0  # остановка бага с бесконечной стрельбой
-            pass
-        else:
-            pass
         self.move()
         self.check_collisions()
         self.set_sprite_picture()
