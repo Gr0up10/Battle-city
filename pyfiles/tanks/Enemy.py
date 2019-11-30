@@ -11,11 +11,13 @@ class Enemy(Tank):
         self.image = pygame.image.load('sprites/tank/tank_u.png')
 
     def update(self):
+        super().update()
         self.deltaX = 0
         self.deltaY = 0
         if self.is_able_to_move is False:
             self.distance = 0
         self.choose_cmd()
+        print('update')
         self.move()
         self.check_collisions()
 
@@ -32,8 +34,12 @@ class Enemy(Tank):
         elif self.cmd_choice is 3:
             self.distance -= self.speed
             self.move_left()
+        elif self.cmd_choice is 4:
+            self.shoot()
+            self.cmd_choice = 0     # остановка бага с бесконечной стрельбой
 
     def choose_cmd(self):
         if self.distance <= 0:
-            self.cmd_choice = random.randint(0, 3)
+            self.cmd_choice = random.randint(0, 4)
+            print('rand = ', self.cmd_choice)
             self.distance = 50 * random.randint(1, 5)

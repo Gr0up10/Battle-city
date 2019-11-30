@@ -3,6 +3,7 @@ from pyfiles.tanks.Player1Tank import Player1Tank
 from pyfiles.battlefield.Field import Field
 from pyfiles.MainMenu import MainMenu
 from pyfiles.Game_over import Game_over
+from pyfiles.tanks.Enemy import Enemy
 
 size = width, height = 800, 600
 black = 0, 0, 0
@@ -19,8 +20,10 @@ def one_player_loop():
     decorate = f.plants #группа декоративных спрайтов
 
     player = Player1Tank(all_sprites)  # инициализация танка игрока
+    enemy = Enemy(all_sprites)
 
     all_sprites.add(player)  # загрузка танка игрока
+    all_sprites.add(enemy)
 
     game_over = False
     while not game_over:
@@ -36,6 +39,7 @@ def one_player_loop():
 
         # коллизия танка со стенами
         player.check_collisions(field_sprites)
+        enemy.check_collisions(field_sprites)
 
         # отрисовка
         field_sprites.draw(screen)
