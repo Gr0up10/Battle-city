@@ -43,18 +43,23 @@ def one_player_loop():
     enemy4 = Enemy(bullets_group, bullets, 160, 40)  # инициализация врагов
     tanks_sprites.add(enemy4)
     enemy_list = [enemy1,enemy2,enemy3,enemy4]
-
+    ticks = 0
 
     game_over = False
     while not game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-
-        for enemy in enemy_list:
-            if not enemy1.isAlive:
-                enemy = Enemy(bullets_group,bullets,enemy_list[enemy],40,40)
-                tanks_sprites.add(enemy)
+        if ticks >= 5000:
+            for enemy in enemy_list:
+                if not enemy.isAlive:
+                    print(enemy_list[enemy])
+                    enemy = Enemy(bullets_group,bullets,40,40)
+                    tanks_sprites.add(enemy)
+                    ticks = 0
+                    break
+                else:
+                    ticks = 0
         # Обновление
         tanks_sprites.update()
         field_sprites.update()
@@ -100,6 +105,7 @@ def one_player_loop():
 
         pygame.display.flip()
         pygame.time.wait(10)
+        ticks+=1
 
 
 def main():
