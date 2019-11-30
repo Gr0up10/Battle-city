@@ -13,7 +13,7 @@ class Enemy(Tank):
         pic_d = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_d.png'), (block_size, block_size))
         pic_l = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_l.png'), (block_size, block_size))
         super().__init__(sprites, bullets, pic_u, pic_l, pic_d, pic_r)
-        self.rect.centerx = 5*50
+        self.rect.centerx = 4*50 + 25
         self.rect.bottom = 140
         self.distance = 0
         self.cmd_choice = 0
