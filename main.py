@@ -43,7 +43,6 @@ def one_player_loop():
                 game_over = True
 
         # Обновление
-        print(len(tanks_sprites))
         tanks_sprites.update()
         field_sprites.update()
         player_group.update()

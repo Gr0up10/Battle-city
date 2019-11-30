@@ -6,7 +6,7 @@ WIDTH, HEIGHT = 800, 600
 
 
 class Tank(pygame.sprite.Sprite):
-    def __init__(self, sprites_group, bullets, pic_u, pic_r, pic_d, pic_l):
+    def __init__(self, sprites_group, bullets, pic_u, pic_l, pic_d, pic_r):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 2
         self.direction = 0
@@ -78,3 +78,10 @@ class Tank(pygame.sprite.Sprite):
 
     def set_sprite_picture(self):
         if self.direction is 0:
+            self.image = self.pic_u
+        elif self.direction is 1:
+            self.image = self.pic_r
+        elif self.direction is 2:
+            self.image = self.pic_d
+        else:
+            self.image = self.pic_l
