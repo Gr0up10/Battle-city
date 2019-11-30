@@ -52,12 +52,19 @@ def one_player_loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-        print(ticks)
+
+        for enemy in enemy_list:
+            if not enemy.alive():
+                enemy_list.remove(enemy)
+
         if ticks >= 300:
-            new_enemy = Enemy(bullets_group, bullets, 40, 40)
-            enemy_list.append(new_enemy)
-            tanks_sprites.add(new_enemy)
-            ticks = 0
+            if len(enemy_list) < 4:
+                new_enemy = Enemy(bullets_group, bullets, 40, 40)
+                enemy_list.append(new_enemy)
+                tanks_sprites.add(new_enemy)
+                ticks = 0
+            else:
+                ticks = 300
 
         # Обновление
         tanks_sprites.update()
