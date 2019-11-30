@@ -21,6 +21,7 @@ def merge_sprites_group(tanks, field):
 def one_player_loop():
     tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     player_group = pygame.sprite.GroupSingle()
+    bullets_group = pygame.sprite.Group()
     bullets = list()
 
     pygame.init()
@@ -30,8 +31,8 @@ def one_player_loop():
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
     decorate = f.plants # группа декоративных спрайтов
 
-    player = Player1Tank(player_group, bullets)  # инициализация танка игрока
-    enemy = Enemy(tanks_sprites, bullets)
+    player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
+    enemy = Enemy(bullets_group, bullets)
 
     player_group.add(player)  # загрузка танка игрока
     tanks_sprites.add(enemy)
@@ -46,6 +47,7 @@ def one_player_loop():
         tanks_sprites.update()
         field_sprites.update()
         player_group.update()
+        bullets_group.update()
 
         screen.fill(black)
 
@@ -59,6 +61,7 @@ def one_player_loop():
         # отрисовка
         field_sprites.draw(screen)
         tanks_sprites.draw(screen)
+        bullets_group.draw(screen)
         decorate.draw(screen)
         player_group.draw(screen)
 
