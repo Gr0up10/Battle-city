@@ -8,6 +8,8 @@ WIDTH, HEIGHT = 800, 600
 class Tank(pygame.sprite.Sprite):
     def __init__(self, sprites_group, bullets, pic_u, pic_l, pic_d, pic_r):
         pygame.sprite.Sprite.__init__(self)
+        self.isAlive = True
+#       self.hp = 1
         self.speed = 2
         self.direction = 0
         self.image = pygame.Surface((40, 40))
@@ -49,9 +51,9 @@ class Tank(pygame.sprite.Sprite):
 
     def check_collisions(self, field_sprites=None):
         if field_sprites is not None:
-           if pygame.sprite.spritecollideany(self, field_sprites):
-               self.is_able_to_move = False
-               self.rect.x, self.rect.y = self.backupXY
+            if pygame.sprite.spritecollideany(self, field_sprites):
+                self.is_able_to_move = False
+                self.rect.x, self.rect.y = self.backupXY
         else:
             if self.is_able_to_move:
                 self.backupXY = self.rect.x, self.rect.y
@@ -60,21 +62,27 @@ class Tank(pygame.sprite.Sprite):
             else:
                 self.is_able_to_move = True
                 self.rect.x, self.rect.y = self.backupXY
+
+            # строки self.is_able_to_move = False в каждом if нужны, чтобы враг не упирался в стену
             if self.rect.right > WIDTH:
                 self.rect.right = WIDTH
+                self.is_able_to_move = False
             if self.rect.left < 0:
                 self.rect.left = 0
+                self.is_able_to_move = False
             if self.rect.bottom > HEIGHT:
                 self.rect.bottom = HEIGHT
+                self.is_able_to_move = False
             if self.rect.top < 0:
                 self.rect.top = 0
+                self.is_able_to_move = False
 
     def shoot(self):
         if self.shooting_cooldown == 0:
-            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(self.bullet)
+            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(bullet)
             self.shooting_cooldown = 50
-            self.bullets.append(self.bullet)
+            self.bullets.append(bullet)
 
     def set_sprite_picture(self):
         if self.direction is 0:
