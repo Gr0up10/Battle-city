@@ -13,8 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 5
         self.direction = direction
-        self.image = pygame.Surface((10, 20))
-        self.image.fill(YELLOW)
+        self.image = pygame.transform.scale(pygame.image.load('sprites/bullet/up.png'), (10, 20))
         self.rect = self.image.get_rect()
         if direction == self.DIR_UP:
             self.rect.x = x
