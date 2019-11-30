@@ -26,10 +26,13 @@ class Enemy(Tank):
 
         if self.cmd_choice is 1:
             self.shoot()
-            self.cmd_choice = 0  # остановка бага с бесконечной стрельбой
+            # self.cmd_choice = 0  # остановка бага с бесконечной стрельбой
             pass
         else:
-            self.move()
+            pass
+        self.move()
+        self.check_collisions()
+        self.set_sprite_picture()
 
     def move(self):
         if self.is_able_to_move is False:
@@ -47,8 +50,6 @@ class Enemy(Tank):
         elif self.direction is 3:
             self.distance -= self.speed
             self.move_left()
-        self.check_collisions()
-        self.set_sprite_picture()
 
     def choose_direction(self):
         if self.distance <= 0:
@@ -56,5 +57,5 @@ class Enemy(Tank):
             self.distance = 50 * random.randint(1, 2)
 
     def choose_cmd(self):
-        if self.distance <= 0:
-            self.cmd_choice = random.randint(0, 1)
+        # if self.distance <= 0:
+        self.cmd_choice = random.randint(1, 11)

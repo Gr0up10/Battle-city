@@ -60,6 +60,8 @@ class Tank(pygame.sprite.Sprite):
             else:
                 self.is_able_to_move = True
                 self.rect.x, self.rect.y = self.backupXY
+
+            # строки self.is_able_to_move = False в каждом if нужны, чтобы враг не упирался в стену
             if self.rect.right > WIDTH:
                 self.rect.right = WIDTH
                 self.is_able_to_move = False
