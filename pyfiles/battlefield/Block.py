@@ -11,6 +11,12 @@ class Block(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size))
         elif image_path[15] in ('1','3','8','6'):
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size//2))
+        elif image_path[15] in ('w','x','y','z'):
+            image_path = image_path.replace('z', '4')
+            image_path = image_path.replace('w', '4')
+            image_path = image_path.replace('y', '4')
+            image_path = image_path.replace('x', '4')
+            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size//2, block_size // 2))
         else:
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size//2, block_size))
         self.rect = self.image.get_rect()
