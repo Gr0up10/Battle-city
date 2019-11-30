@@ -96,7 +96,7 @@ def one_player_loop():
                     print(player.rect.x, player.rect.y)
                     print('tank destroyed')
 
-            for b in bullets:
+            for b in bullets:           # коллизия снаряда и противника
                 if pygame.sprite.spritecollide(b, tanks_sprites, True):
                     print('enemy destroyed')
                     tanks_sprites.remove(enemy)

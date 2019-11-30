@@ -13,8 +13,6 @@ class Block(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size//2))
         else:
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size//2, block_size))
-        #self.image = pygame.Surface((block_size, block_size)) #убрать, когда нужно будет накладывать текстуры
-        #self.image.fill((255,0,0))                            # убрать, когда нужно будет накладывать текстуры
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
