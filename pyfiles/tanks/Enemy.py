@@ -2,10 +2,13 @@ import pygame
 import random
 from pyfiles.tanks.Tank import Tank
 
+WIDTH, HEIGHT = 800, 600
+
 
 class Enemy(Tank):
-    def __init__(self, sprites):
-        super().__init__(sprites)
+    def __init__(self, sprites, bullets):
+        super().__init__(sprites, bullets)
+        self.rect.centerx = WIDTH / 2 - 150
         self.distance = 0
         self.cmd_choice = 0
         self.image = pygame.image.load('sprites/tank/tank_u.png')
@@ -17,11 +20,12 @@ class Enemy(Tank):
         if self.is_able_to_move is False:
             self.distance = 0
         self.choose_cmd()
-        print('update')
         self.move()
         self.check_collisions()
 
     def move(self):
+        if self.cmd_choice is not 4:
+            print('moving')
         if self.cmd_choice is 0:
             self.distance -= self.speed
             self.move_up()
@@ -41,5 +45,5 @@ class Enemy(Tank):
     def choose_cmd(self):
         if self.distance <= 0:
             self.cmd_choice = random.randint(0, 4)
-            print('rand = ', self.cmd_choice)
             self.distance = 50 * random.randint(1, 5)
+

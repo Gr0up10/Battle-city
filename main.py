@@ -9,21 +9,32 @@ size = width, height = 800, 600
 black = 0, 0, 0
 
 
+def merge_sprites_group(tanks, field):
+    all_sprites = pygame.sprite.Group()
+    for b in tanks:
+        all_sprites.add(b)
+    for b in field:
+        all_sprites.add(b)
+    return all_sprites
+
+
 def one_player_loop():
-    all_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
+    tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
+    player_group = pygame.sprite.GroupSingle()
+    bullets = list()
 
     pygame.init()
     screen = pygame.display.set_mode(size)  # инициализация pygame
 
     f = Field()  # инициализация поля, загрузка в field_sprites
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
-    decorate = f.plants #группа декоративных спрайтов
+    decorate = f.plants # группа декоративных спрайтов
 
-    player = Player1Tank(all_sprites)  # инициализация танка игрока
-    enemy = Enemy(all_sprites)
+    player = Player1Tank(player_group, bullets)  # инициализация танка игрока
+    enemy = Enemy(tanks_sprites, bullets)
 
-    all_sprites.add(player)  # загрузка танка игрока
-    all_sprites.add(enemy)
+    player_group.add(player)  # загрузка танка игрока
+    tanks_sprites.add(enemy)
 
     game_over = False
     while not game_over:
@@ -32,34 +43,44 @@ def one_player_loop():
                 game_over = True
 
         # Обновление
-        all_sprites.update()
+        print(len(tanks_sprites))
+        tanks_sprites.update()
         field_sprites.update()
+        player_group.update()
 
         screen.fill(black)
 
-        # коллизия танка со стенами
-        player.check_collisions(field_sprites)
-        enemy.check_collisions(field_sprites)
+        # подготовка к отработке коллизий
+        tanks_field = merge_sprites_group(tanks_sprites, field_sprites)
+        player_field = merge_sprites_group(player_group, field_sprites)
+        # коллизия танка
+        player.check_collisions(tanks_field)
+        enemy.check_collisions(player_field)
 
         # отрисовка
         field_sprites.draw(screen)
-        all_sprites.draw(screen)
+        tanks_sprites.draw(screen)
         decorate.draw(screen)
+        player_group.draw(screen)
 
-        # коллизия снаряда с блоком
-        if player.bullet_exist():
-            if pygame.sprite.spritecollideany(player.bullet, f.bricks) or pygame.sprite.spritecollideany(player.bullet, f.unbreakable):
-                pygame.sprite.spritecollide(player.bullet, f.bricks, 1) #уничтожить блок
-                field_sprites = f.init_field_sprites_group()            #изменить поле
-                player.bullet.kill()                                    #уничтожить снаряд
+        # коллизия снарядов с полем
+        if len(bullets) > 0:
+            for b in bullets:             # удалить "мёртвые" снаряды (оптимизация)
+                if not b.alive():
+                    bullets.remove(b)
 
-        # коллизия с базой
-        if player.bullet_exist():
-            if pygame.sprite.spritecollideany(player.bullet, f.base):
-                pygame.sprite.spritecollide(player.bullet, f.base, 1)
-                game_over = True                                        #завершить цикл
-                game_over1 = Game_over()                                #отрисовка экрана Game Over
-                game_over1.show()
+            for b in bullets:           # коллизия снарядов и блоков
+                if pygame.sprite.spritecollideany(b, f.bricks) or pygame.sprite.spritecollideany(b, f.unbreakable):
+                    pygame.sprite.spritecollide(b, f.bricks, 1)  # уничтожить блок
+                    field_sprites = f.init_field_sprites_group()  # изменить поле
+                    b.kill()
+
+            for b in bullets:           # коллизия снарядов и базы
+                if pygame.sprite.spritecollideany(b, f.base):
+                    pygame.sprite.spritecollide(b, f.base, 1)
+                    game_over = True                # завершить цикл
+                    game_over1 = Game_over()        # отрисовка экрана Game Over
+                    game_over1.show()
 
         pygame.display.flip()
         pygame.time.wait(10)

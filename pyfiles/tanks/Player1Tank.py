@@ -3,8 +3,8 @@ from pyfiles.tanks.Tank import Tank
 
 
 class Player1Tank(Tank):
-    def __init__(self, sprites):
-        super().__init__(sprites)
+    def __init__(self, sprites, bullets):
+        super().__init__(sprites, bullets)
         self.image = pygame.image.load('sprites/tank/tank_u.png')
 
     def update(self):
@@ -25,6 +25,5 @@ class Player1Tank(Tank):
             self.move_down()
             self.image = pygame.image.load('sprites/tank/tank_d.png')
         if keystate[pygame.K_SPACE]:
-            if not self.bullet_exist():
-                self.shoot()
+            self.shoot()
         self.check_collisions()
