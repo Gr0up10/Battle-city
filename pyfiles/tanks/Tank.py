@@ -18,6 +18,8 @@ class Tank(pygame.sprite.Sprite):
         self.deltaX = 0
         self.deltaY = 0
         self.bullets = bullets
+        self.bullet = Bullet(1, 1, 1)
+        self.bullet.kill()
         self.sprites = sprites_group
         self.backupXY = self.rect.x, self.rect.y
         self.is_able_to_move = True
@@ -76,11 +78,11 @@ class Tank(pygame.sprite.Sprite):
                 self.is_able_to_move = False
 
     def shoot(self):
-        if self.shooting_cooldown == 0:
-            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(bullet)
+        if self.shooting_cooldown == 0 and not self.bullet.alive():
+            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(self.bullet)
             self.shooting_cooldown = 50
-            self.bullets.append(bullet)
+            self.bullets.append(self.bullet)
 
     def set_sprite_picture(self):
         if self.direction is 0:

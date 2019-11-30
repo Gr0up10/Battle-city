@@ -18,6 +18,12 @@ def merge_sprites_group(tanks, field):
     return all_sprites
 
 
+def game_over_screen():
+    game_over1 = Game_over()  # отрисовка экрана Game Over
+    game_over1.show()
+    return True
+
+
 def one_player_loop():
     tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     player_group = pygame.sprite.GroupSingle()
@@ -62,8 +68,8 @@ def one_player_loop():
         field_sprites.draw(screen)
         tanks_sprites.draw(screen)
         bullets_group.draw(screen)
-        decorate.draw(screen)
         player_group.draw(screen)
+        decorate.draw(screen)
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
@@ -80,9 +86,21 @@ def one_player_loop():
             for b in bullets:           # коллизия снарядов и базы
                 if pygame.sprite.spritecollideany(b, f.base):
                     pygame.sprite.spritecollide(b, f.base, 1)
-                    game_over = True                # завершить цикл
-                    game_over1 = Game_over()        # отрисовка экрана Game Over
-                    game_over1.show()
+                    game_over = game_over_screen()
+                    print('Base destroyed')
+
+            for b in bullets:           # коллизия снарядов и танка игрока
+                if pygame.sprite.spritecollide(b, player_group, True):
+                    game_over = game_over_screen()
+                    print('tank destroyed')
+
+            for b in bullets:
+                if pygame.sprite.spritecollide(b, tanks_sprites, True):
+                    print('enemy destroyed')
+                    tanks_sprites.remove(enemy)
+                    b.kill()
+                    enemy = Enemy(bullets_group, bullets)
+                    tanks_sprites.add(enemy)
 
         pygame.display.flip()
         pygame.time.wait(10)

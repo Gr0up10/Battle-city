@@ -22,7 +22,7 @@ class Bullet(pygame.sprite.Sprite):
             self.deltaY = -self.speed
         elif direction == self.DIR_RIGHT:
             self.image = pygame.transform.rotate(self.image, 270)
-            self.rect.x = x + 20
+            self.rect.x = x + 25
             self.rect.y = y + 20
             self.deltaX = self.speed
         elif direction == self.DIR_DOWN:
@@ -32,7 +32,7 @@ class Bullet(pygame.sprite.Sprite):
             self.deltaY = self.speed
         elif direction == self.DIR_LEFT:
             self.image = pygame.transform.rotate(self.image, 90)
-            self.rect.x = x - 20
+            self.rect.x = x - 25
             self.rect.y = y + 20
             self.deltaX = -self.speed
 
