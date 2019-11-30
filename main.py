@@ -38,10 +38,13 @@ def one_player_loop():
     tanks_sprites.add(enemy1)
     enemy2 = Enemy(bullets_group, bullets, 80, 40)  # инициализация врагов
     tanks_sprites.add(enemy2)
+    enemy2.kill()
     enemy3 = Enemy(bullets_group, bullets, 120, 40)  # инициализация врагов
     tanks_sprites.add(enemy3)
+    enemy3.kill()
     enemy4 = Enemy(bullets_group, bullets, 160, 40)  # инициализация врагов
     tanks_sprites.add(enemy4)
+    enemy4.kill()
     enemy_list = [enemy1,enemy2,enemy3,enemy4]
     ticks = 0
 
@@ -53,7 +56,7 @@ def one_player_loop():
         if ticks >= 5000:
             for enemy in enemy_list:
                 if not enemy.isAlive:
-                    print(enemy_list[enemy])
+                    #print(enemy_list[enemy])
                     enemy = Enemy(bullets_group,bullets,40,40)
                     tanks_sprites.add(enemy)
                     ticks = 0
