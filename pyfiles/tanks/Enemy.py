@@ -13,7 +13,7 @@ class Enemy(Tank):
         pic_d = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_d.png'), (block_size, block_size))
         pic_l = pygame.transform.scale(pygame.image.load('sprites/enemy1/enemy_l.png'), (block_size, block_size))
         super().__init__(sprites, bullets, pic_u, pic_l, pic_d, pic_r)
-        self.rect.centerx = 4*50 + 25
+        self.rect.centerx = 4.5 * 50
         self.rect.bottom = 140
         self.distance = 0
         self.cmd_choice = 0
@@ -22,32 +22,36 @@ class Enemy(Tank):
         super().update()
         self.deltaX = 0
         self.deltaY = 0
-        if self.is_able_to_move is False:
-            self.distance = 0
         self.choose_cmd()
+        # выбирает стрелять или нет. Шанс 1 к 11
+        if self.cmd_choice is 1:
+            self.shoot()
         self.move()
         self.check_collisions()
         self.set_sprite_picture()
 
     def move(self):
-        if self.cmd_choice is 0:
+        if self.is_able_to_move is False:
+            self.distance = 0
+        self.choose_direction()
+        if self.direction is 0:
             self.distance -= self.speed
             self.move_up()
-        elif self.cmd_choice is 1:
+        elif self.direction is 1:
             self.distance -= self.speed
             self.move_right()
-        elif self.cmd_choice is 2:
+        elif self.direction is 2:
             self.distance -= self.speed
             self.move_down()
-        elif self.cmd_choice is 3:
+        elif self.direction is 3:
             self.distance -= self.speed
             self.move_left()
-        elif self.cmd_choice is 4:
-            self.shoot()
-            self.cmd_choice = 0     # остановка бага с бесконечной стрельбой
+
+    def choose_direction(self):
+        if self.distance <= 0:
+            self.direction = random.randint(0, 3)
+            self.distance = 50 * random.randint(1, 2)
 
     def choose_cmd(self):
-        if self.distance <= 0:
-            self.cmd_choice = random.randint(0, 4)
-            self.distance = 50 * random.randint(1, 5)
-
+        # if self.distance <= 0:
+        self.cmd_choice = random.randint(1, 11)
