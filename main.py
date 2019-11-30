@@ -102,9 +102,23 @@ def one_player_loop():
             for b in bullets:           # коллизия снарядов и базы
                 if pygame.sprite.spritecollideany(b, f.base):
                     pygame.sprite.spritecollide(b, f.base, 1)
-                    game_over = True                # завершить цикл
-                    game_over1 = Game_over()        # отрисовка экрана Game Over
-                    game_over1.show()
+                    game_over = game_over_screen()
+                    print('Base destroyed')
+
+            for b in bullets:           # коллизия снарядов и танка игрока
+                if pygame.sprite.spritecollide(b, player_group, True):
+                    game_over = game_over_screen()
+                    print(b.rect.x, b.rect.y)
+                    print(player.rect.x, player.rect.y)
+                    print('tank destroyed')
+
+            for b in bullets:           # коллизия снаряда и противника
+                if pygame.sprite.spritecollide(b, tanks_sprites, True):
+                    print('enemy destroyed')
+                    tanks_sprites.remove(enemy)
+                    b.kill()
+                    enemy = Enemy(bullets_group, bullets)
+                    tanks_sprites.add(enemy)
 
         pygame.display.flip()
         pygame.time.wait(10)
