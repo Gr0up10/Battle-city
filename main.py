@@ -92,6 +92,8 @@ def one_player_loop():
             for b in bullets:           # коллизия снарядов и танка игрока
                 if pygame.sprite.spritecollide(b, player_group, True):
                     game_over = game_over_screen()
+                    print(b.rect.x, b.rect.y)
+                    print(player.rect.x, player.rect.y)
                     print('tank destroyed')
 
             for b in bullets:
