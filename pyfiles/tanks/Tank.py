@@ -8,6 +8,8 @@ WIDTH, HEIGHT = 800, 600
 class Tank(pygame.sprite.Sprite):
     def __init__(self, sprites_group, bullets, pic_u, pic_l, pic_d, pic_r):
         pygame.sprite.Sprite.__init__(self)
+        self.isAlive = True
+#       self.hp = 1
         self.speed = 2
         self.direction = 0
         self.image = pygame.Surface((40, 40))
@@ -18,8 +20,6 @@ class Tank(pygame.sprite.Sprite):
         self.deltaX = 0
         self.deltaY = 0
         self.bullets = bullets
-        self.bullet = Bullet(1, 1, 1)
-        self.bullet.kill()
         self.sprites = sprites_group
         self.backupXY = self.rect.x, self.rect.y
         self.is_able_to_move = True
@@ -78,11 +78,11 @@ class Tank(pygame.sprite.Sprite):
                 self.is_able_to_move = False
 
     def shoot(self):
-        if self.shooting_cooldown == 0 and not self.bullet.alive():
-            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(self.bullet)
+        if self.shooting_cooldown == 0:
+            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(bullet)
             self.shooting_cooldown = 50
-            self.bullets.append(self.bullet)
+            self.bullets.append(bullet)
 
     def set_sprite_picture(self):
         if self.direction is 0:

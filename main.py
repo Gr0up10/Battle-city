@@ -18,12 +18,6 @@ def merge_sprites_group(tanks, field):
     return all_sprites
 
 
-def game_over_screen():
-    game_over1 = Game_over()  # отрисовка экрана Game Over
-    game_over1.show()
-    return True
-
-
 def one_player_loop():
     tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     player_group = pygame.sprite.GroupSingle()
@@ -38,17 +32,37 @@ def one_player_loop():
     decorate = f.plants # группа декоративных спрайтов
 
     player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
-    enemy = Enemy(bullets_group, bullets)
-
     player_group.add(player)  # загрузка танка игрока
-    tanks_sprites.add(enemy)
+
+    enemy1 = Enemy(bullets_group, bullets, 40, 40)  # инициализация врагов
+    tanks_sprites.add(enemy1)
+    enemy2 = Enemy(bullets_group, bullets, 80, 40)  # инициализация врагов
+    tanks_sprites.add(enemy2)
+    enemy2.kill()
+    enemy3 = Enemy(bullets_group, bullets, 120, 40)  # инициализация врагов
+    tanks_sprites.add(enemy3)
+    enemy3.kill()
+    enemy4 = Enemy(bullets_group, bullets, 160, 40)  # инициализация врагов
+    tanks_sprites.add(enemy4)
+    enemy4.kill()
+    enemy_list = [enemy1,enemy2,enemy3,enemy4]
+    ticks = 0
 
     game_over = False
     while not game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-
+        if ticks >= 5000:
+            for enemy in enemy_list:
+                if not enemy.isAlive:
+                    #print(enemy_list[enemy])
+                    enemy = Enemy(bullets_group,bullets,40,40)
+                    tanks_sprites.add(enemy)
+                    ticks = 0
+                    break
+                else:
+                    ticks = 0
         # Обновление
         tanks_sprites.update()
         field_sprites.update()
@@ -62,14 +76,16 @@ def one_player_loop():
         player_field = merge_sprites_group(player_group, field_sprites)
         # коллизия танка
         player.check_collisions(tanks_field)
-        enemy.check_collisions(player_field)
+        for enemy in enemy_list:
+            enemy.check_collisions(player_field)
+
 
         # отрисовка
         field_sprites.draw(screen)
         tanks_sprites.draw(screen)
         bullets_group.draw(screen)
-        player_group.draw(screen)
         decorate.draw(screen)
+        player_group.draw(screen)
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
@@ -106,6 +122,7 @@ def one_player_loop():
 
         pygame.display.flip()
         pygame.time.wait(10)
+        ticks+=1
 
 
 def main():
