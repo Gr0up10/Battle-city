@@ -49,9 +49,9 @@ class Tank(pygame.sprite.Sprite):
 
     def check_collisions(self, field_sprites=None):
         if field_sprites is not None:
-           if pygame.sprite.spritecollideany(self, field_sprites):
-               self.is_able_to_move = False
-               self.rect.x, self.rect.y = self.backupXY
+            if pygame.sprite.spritecollideany(self, field_sprites):
+                self.is_able_to_move = False
+                self.rect.x, self.rect.y = self.backupXY
         else:
             if self.is_able_to_move:
                 self.backupXY = self.rect.x, self.rect.y
@@ -71,10 +71,10 @@ class Tank(pygame.sprite.Sprite):
 
     def shoot(self):
         if self.shooting_cooldown == 0:
-            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(self.bullet)
+            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(bullet)
             self.shooting_cooldown = 50
-            self.bullets.append(self.bullet)
+            self.bullets.append(bullet)
 
     def set_sprite_picture(self):
         if self.direction is 0:
