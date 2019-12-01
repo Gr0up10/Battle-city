@@ -1,5 +1,5 @@
 import pygame
-from pyfiles.tanks.Player1Tank import Player1Tank
+from pyfiles.tanks.Player1 import Player1
 from pyfiles.battlefield.Field import Field
 from pyfiles.MainMenu import MainMenu
 from pyfiles.Game_over import Game_over
@@ -37,7 +37,7 @@ def one_player_loop():
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
     decorate = f.plants # группа декоративных спрайтов
 
-    player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
+    player = Player1(bullets_group, bullets)  # инициализация танка игрока
     player_group.add(player)  # загрузка танка игрока
 
     enemy1 = Enemy(bullets_group, bullets, 40, 40)  # инициализация врагов

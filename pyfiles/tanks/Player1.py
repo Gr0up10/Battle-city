@@ -4,7 +4,7 @@ from pyfiles.tanks.Tank import Tank
 block_size = 40
 
 
-class Player1Tank(Tank):
+class Player1(Tank):
     def __init__(self, sprites, bullets):
         pic_u = pygame.transform.scale(pygame.image.load('sprites/tank/tank_u.png'), (block_size, block_size))
         pic_r = pygame.transform.scale(pygame.image.load('sprites/tank/tank_r.png'), (block_size, block_size))
