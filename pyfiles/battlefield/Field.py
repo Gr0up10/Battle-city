@@ -1,7 +1,7 @@
 import pygame
 
 from pyfiles.battlefield.Block import Block
-
+from pyfiles.battlefield.Brick import Brick
 
 block_size = 50
 
@@ -17,7 +17,7 @@ class Field:
     water = pygame.sprite.Group()
     # группа для базы
     base = pygame.sprite.GroupSingle()
-    
+
     def __init__(self, level_path='levels/level_1.txt'):
         self.level_path = level_path
         self.level = list()
@@ -36,16 +36,18 @@ class Field:
             for char in string:
                 if char != 'd':
                     img_path = 'sprites/blocks/' + char + '.png'
-                    if char in ('2','3','4'):
-                        self.bricks.add(Block(img_path, x * block_size, y * block_size))
-                    elif char in ('9','7','8','c'):
+                    if char in '4':
+                        self.bricks.add(Brick(img_path, x * block_size, y * block_size, 3))
+                    elif char is '23':
+                        self.bricks.add(Brick(img_path, x * block_size + block_size // 2, y * block_size, 2))
+                    elif char in '978c':
                         self.unbreakable.add(Block(img_path, x * block_size, y * block_size))
                     elif char is '0':
-                        self.bricks.add(Block(img_path, x * block_size + block_size//2, y * block_size))
+                        self.bricks.add(Brick(img_path, x * block_size + block_size // 2, y * block_size, 2))
                     elif char is '5':
                         self.unbreakable.add(Block(img_path, x * block_size + block_size // 2, y * block_size))
                     elif char is '1':
-                        self.bricks.add(Block(img_path, x * block_size, y * block_size + block_size//2))
+                        self.bricks.add(Brick(img_path, x * block_size, y * block_size + block_size // 2, 2))
                     elif char is '6':
                         self.unbreakable.add(Block(img_path, x * block_size, y * block_size + block_size // 2))
                     elif char == 'b':
@@ -53,11 +55,12 @@ class Field:
                     elif char == 'a':
                         self.water.add(Block(img_path, x * block_size, y * block_size))
                     elif char is 'z':
-                        self.bricks.add(Block(img_path, x * block_size+block_size//2, y * block_size+block_size//2))
+                        self.bricks.add(
+                            Brick(img_path, x * block_size + block_size // 2, y * block_size + block_size // 2, 1))
                     elif char is 'w':
-                        self.bricks.add(Block(img_path, x * block_size, y * block_size))
+                        self.bricks.add(Brick(img_path, x * block_size, y * block_size, 1))
                     elif char is 'y':
-                        self.bricks.add(Block(img_path, x * block_size, y * block_size+block_size//2))
+                        self.bricks.add(Brick(img_path, x * block_size, y * block_size + block_size // 2, 1))
                     elif char == 's':
                         self.base.add(Block(img_path, x * block_size, y * block_size))
                 x += 1

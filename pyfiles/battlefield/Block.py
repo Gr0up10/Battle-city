@@ -4,21 +4,21 @@ block_size = 50
 
 
 class Block(pygame.sprite.Sprite):
-    def __init__(self, image_path, x, y,is_wall=False):
+    def __init__(self, image_path, x, y, is_wall=False):
         pygame.sprite.Sprite.__init__(self)
         self.image_path = image_path
-        if image_path[15] in ('4','9','a','b','c', 's'):
+        if image_path[15] in '49abcs':
             self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size))
-        elif image_path[15] in ('1','3','8','6'):
-            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size//2))
-        elif image_path[15] in ('w','x','y','z'):
+        elif image_path[15] in '86':
+            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size, block_size // 2))
+        elif image_path[15] in 'wxyz':
             image_path = image_path.replace('z', '4')
             image_path = image_path.replace('w', '4')
             image_path = image_path.replace('y', '4')
             image_path = image_path.replace('x', '4')
-            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size//2, block_size // 2))
+            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size // 2, block_size // 2))
         else:
-            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size//2, block_size))
+            self.image = pygame.transform.scale(pygame.image.load(image_path), (block_size // 2, block_size))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
