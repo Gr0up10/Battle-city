@@ -7,6 +7,7 @@ from pyfiles.tanks.Enemy import Enemy
 
 size = width, height = 800, 600
 black = 0, 0, 0
+white = 255, 255, 255
 
 
 def game_over_screen():
@@ -30,6 +31,11 @@ def one_player_loop():
     bullets_group = pygame.sprite.Group()
     bullets = list()
 
+    pygame.font.init()
+    font = pygame.font.SysFont('Comic Sans MS', 50, True)
+    data = '20'
+
+
     pygame.init()
     screen = pygame.display.set_mode(size)  # инициализация pygame
 
@@ -39,14 +45,14 @@ def one_player_loop():
 
     player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
     player_group.add(player)  # загрузка танка игрока
-
+    pygame.font.init() # Инициализация текста
     enemy1 = Enemy(bullets_group, bullets, 40, 40)  # инициализация врагов
     tanks_sprites.add(enemy1)
     enemy_list = list()
     enemy_list.append(enemy1)
 
     ticks = 0
-
+    data_flag = True
     game_over = False
     while not game_over:
         for event in pygame.event.get():
@@ -58,13 +64,14 @@ def one_player_loop():
                 enemy_list.remove(enemy)
 
         if ticks >= 300:
-            if len(enemy_list) < 4:
+            if len(enemy_list) < 4 and int(data) > 0:
                 new_enemy = Enemy(bullets_group, bullets, 40, 40)
                 enemy_list.append(new_enemy)
                 tanks_sprites.add(new_enemy)
                 ticks = 0
             else:
                 ticks = 300
+
 
         # Обновление
         tanks_sprites.update()
@@ -90,6 +97,8 @@ def one_player_loop():
         bullets_group.draw(screen)
         decorate.draw(screen)
         player_group.draw(screen)
+        ts = font.render(data, False, white)
+        screen.blit(ts, (700, 500))
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
@@ -119,6 +128,10 @@ def one_player_loop():
             for b in bullets:           # коллизия снаряда и противника
                 if pygame.sprite.spritecollide(b, tanks_sprites, True):
                     print('enemy destroyed')
+                    if data_flag:
+                        data = str(int(data) - 1)
+                    if (int(data)) == 0:
+                        data_flag = False
                     b.kill()
                     for enemy in enemy_list:
                         if not enemy.isAlive:
