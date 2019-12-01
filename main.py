@@ -34,6 +34,7 @@ def one_player_loop():
     pygame.font.init()
     font = pygame.font.SysFont('Comic Sans MS', 50, True)
     data = '20'
+    data2 = '3'
 
 
     pygame.init()
@@ -42,9 +43,9 @@ def one_player_loop():
     f = Field()  # инициализация поля, загрузка в field_sprites
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
     decorate = f.plants # группа декоративных спрайтов
-
-    player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
-    player_group.add(player)  # загрузка танка игрока
+    tank_player = []
+    tank_player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
+    player_group.add(tank_player)  # загрузка танка игрока
     pygame.font.init() # Инициализация текста
     enemy1 = Enemy(bullets_group, bullets, 40, 40)  # инициализация врагов
     tanks_sprites.add(enemy1)
@@ -85,7 +86,7 @@ def one_player_loop():
         tanks_field = merge_sprites_group(tanks_sprites, field_sprites)
         player_field = merge_sprites_group(player_group, field_sprites)
         # коллизия танка
-        player.check_collisions(tanks_field)
+        tank_player.check_collisions(tanks_field)
         for enemy in enemy_list:
             if enemy.alive():
                 enemy.check_collisions(player_field)
@@ -98,7 +99,9 @@ def one_player_loop():
         decorate.draw(screen)
         player_group.draw(screen)
         ts = font.render(data, False, white)
+        ts2 = font.render(data2, False, white)
         screen.blit(ts, (700, 500))
+        screen.blit(ts2, (700, 400))
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
@@ -120,10 +123,16 @@ def one_player_loop():
 
             for b in bullets:           # коллизия снарядов и танка игрока
                 if pygame.sprite.spritecollide(b, player_group, True):
-                    game_over = game_over_screen()
-                    print(b.rect.x, b.rect.y)
-                    print(player.rect.x, player.rect.y)
-                    print('tank destroyed')
+                    data2 = str(int(data2) - 1)
+                    if int(data2) <= 0:
+                        game_over = game_over_screen()
+                        print(b.rect.x, b.rect.y)
+                        print(tank_player.rect.x, tank_player.rect.y)
+                        print('tank destroyed')
+                    else:
+                        del tank_player
+                        tank_player = Player1Tank(bullets_group, bullets)
+                        player_group.add(tank_player)
 
             for b in bullets:           # коллизия снаряда и противника
                 if pygame.sprite.spritecollide(b, tanks_sprites, True):
