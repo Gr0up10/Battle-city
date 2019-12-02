@@ -128,7 +128,7 @@ def one_player_loop():
             pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_player1, True, True) # коллизия снарядов
 
         pygame.display.flip()
-        pygame.time.wait(20)
+        pygame.time.wait(10)
         ticks+=1
 
 
