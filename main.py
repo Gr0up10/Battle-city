@@ -35,6 +35,10 @@ def one_player_loop():
     font = pygame.font.SysFont('Comic Sans MS', 50, True)
     data = '20'
     data2 = '3'
+    life = pygame.image.load("sprites/bonuses/life.png")
+    liferect = life.get_rect()
+    liferect.x = 600
+    liferect.y = 500
 
 
     pygame.init()
@@ -54,6 +58,7 @@ def one_player_loop():
 
     ticks = 0
     data_flag = True
+    life_flag = False
     game_over = False
     while not game_over:
         for event in pygame.event.get():
@@ -94,6 +99,8 @@ def one_player_loop():
 
         # отрисовка
         field_sprites.draw(screen)
+        if life_flag:
+            screen.blit(life, liferect)
         tanks_sprites.draw(screen)
         bullets_group.draw(screen)
         decorate.draw(screen)
@@ -102,6 +109,7 @@ def one_player_loop():
         ts2 = font.render(data2, False, white)
         screen.blit(ts, (700, 500))
         screen.blit(ts2, (700, 400))
+
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
@@ -141,6 +149,8 @@ def one_player_loop():
                         data = str(int(data) - 1)
                     if (int(data)) == 0:
                         data_flag = False
+                    if int(data) == 18:
+                        life_flag = True
                     b.kill()
                     for enemy in enemy_list:
                         if not enemy.isAlive:
