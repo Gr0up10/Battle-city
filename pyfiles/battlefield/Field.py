@@ -52,6 +52,12 @@ class Field:
                         self.plants.add(Block(img_path, x * block_size, y * block_size))
                     elif char == 'a':
                         self.water.add(Block(img_path, x * block_size, y * block_size))
+                    elif char is 'z':
+                        self.bricks.add(Block(img_path, x * block_size+block_size//2, y * block_size+block_size//2))
+                    elif char is 'w':
+                        self.bricks.add(Block(img_path, x * block_size, y * block_size))
+                    elif char is 'y':
+                        self.bricks.add(Block(img_path, x * block_size, y * block_size+block_size//2))
                     elif char == 's':
                         self.base.add(Block(img_path, x * block_size, y * block_size))
                 x += 1
