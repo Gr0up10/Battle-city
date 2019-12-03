@@ -12,13 +12,15 @@ class Player1Tank(Tank):
         pic_d = pygame.transform.scale(pygame.image.load('sprites/tank/tank_d.png'), (block_size, block_size))
         pic_l = pygame.transform.scale(pygame.image.load('sprites/tank/tank_l.png'), (block_size, block_size))
         super().__init__(sprites, bullets, pic_u, pic_l, pic_d, pic_r)
+        self.bullet = Bullet(0,0,0)
+        self.bullet.kill()
 
     def shoot(self):
-        if self.shooting_cooldown == 0:
-            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(bullet)
+        if not self.bullet.alive() and self.shooting_cooldown == 0:
+            self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(self.bullet)
             self.shooting_cooldown = 50
-            self.bullets.append(bullet)
+            self.bullets.append(self.bullet)
 
     def update(self):
         super().update()
@@ -37,3 +39,4 @@ class Player1Tank(Tank):
             self.shoot()
         self.check_collisions()
         self.set_sprite_picture()
+        # print('Player', self.rect.x, self.rect.y)
