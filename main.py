@@ -50,7 +50,7 @@ def one_player_loop():
     tank_player = Player1Tank(bullets_of_player1, bullets)  # инициализация танка игрока
     player_group.add(tank_player)  # загрузка танка игрока
     pygame.font.init() # Инициализация текста
-    enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40, tank_player)  # инициализация врагов
+    enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40, tank_player, '1')  # инициализация врагов
 
     tanks_sprites.add(enemy1)
     enemy_list = list()
@@ -71,7 +71,7 @@ def one_player_loop():
 
         if ticks >= 300:
             if len(enemy_list) < 4 and int(data) > 0:
-                new_enemy = Enemy(bullets_of_enemies, bullets, 40, 40, tank_player)
+                new_enemy = Enemy(bullets_of_enemies, bullets, 40, 40, tank_player, '2')
                 enemy_list.append(new_enemy)
                 tanks_sprites.add(new_enemy)
                 ticks = 0
