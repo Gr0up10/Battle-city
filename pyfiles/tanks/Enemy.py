@@ -1,6 +1,7 @@
 import pygame
 import random
 from pyfiles.tanks.Tank import Tank
+from pyfiles.tanks.Bullet import Bullet
 
 WIDTH, HEIGHT = 800, 600
 block_size = 40
@@ -17,6 +18,13 @@ class Enemy(Tank):
         self.rect.bottom = y
         self.distance = 0
         self.cmd_choice = 0
+
+    def shoot(self):
+        if self.shooting_cooldown == 0:
+            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
+            self.sprites.add(bullet)
+            self.shooting_cooldown = 50
+            self.bullets.append(bullet)
 
     def update(self):
         super().update()

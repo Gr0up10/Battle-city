@@ -29,6 +29,9 @@ def one_player_loop():
     tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
     player_group = pygame.sprite.GroupSingle()
     bullets_group = pygame.sprite.Group()
+    bullets_of_player1 = pygame.sprite.Group()
+    bullets_of_enemies = pygame.sprite.Group()
+
     bullets = list()
 
     pygame.font.init()
@@ -43,11 +46,12 @@ def one_player_loop():
     f = Field()  # инициализация поля, загрузка в field_sprites
     field_sprites = f.init_field_sprites_group() # группа спрайтов поля
     decorate = f.plants # группа декоративных спрайтов
-    tank_player = []
-    tank_player = Player1Tank(bullets_group, bullets)  # инициализация танка игрока
+
+    tank_player = Player1Tank(bullets_of_player1, bullets)  # инициализация танка игрока
     player_group.add(tank_player)  # загрузка танка игрока
     pygame.font.init() # Инициализация текста
-    enemy1 = Enemy(bullets_group, bullets, 40, 40)  # инициализация врагов
+    enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40)  # инициализация врагов
+
     tanks_sprites.add(enemy1)
     enemy_list = list()
     enemy_list.append(enemy1)
@@ -66,7 +70,7 @@ def one_player_loop():
 
         if ticks >= 300:
             if len(enemy_list) < 4 and int(data) > 0:
-                new_enemy = Enemy(bullets_group, bullets, 40, 40)
+                new_enemy = Enemy(bullets_of_enemies, bullets, 40, 40)
                 enemy_list.append(new_enemy)
                 tanks_sprites.add(new_enemy)
                 ticks = 0
@@ -79,6 +83,8 @@ def one_player_loop():
         field_sprites.update()
         player_group.update()
         bullets_group.update()
+        bullets_of_player1.update()
+        bullets_of_enemies.update()
 
         screen.fill(black)
 
@@ -96,6 +102,8 @@ def one_player_loop():
         field_sprites.draw(screen)
         tanks_sprites.draw(screen)
         bullets_group.draw(screen)
+        bullets_of_player1.draw(screen)
+        bullets_of_enemies.draw(screen)
         decorate.draw(screen)
         player_group.draw(screen)
         ts = font.render(data, False, white)
@@ -144,8 +152,10 @@ def one_player_loop():
                     b.kill()
                     for enemy in enemy_list:
                         if not enemy.isAlive:
-                            enemy = Enemy(bullets_group, bullets, 40, 40)
+                            enemy = Enemy(bullets_of_enemies, bullets, 40, 40)
                             tanks_sprites.add(enemy)
+
+            pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_player1, True, True) # коллизия снарядов
 
         pygame.display.flip()
         pygame.time.wait(10)
