@@ -1,9 +1,14 @@
 import pygame
 
-from pyfiles.battlefield.Block import Block
-from pyfiles.battlefield.Brick import Brick
+from pyfiles.blocks.Block import Block
+from pyfiles.blocks.Brick import Brick
+from pyfiles.blocks.Steel import Steel
+from pyfiles.blocks.Bush import Bush
+from pyfiles.blocks.Water import Water
+from pyfiles.blocks.City import City
+from pyfiles.blocks.Ice import Ice
 
-block_size = 50
+bs = 50  # block size
 
 
 class Field:
@@ -30,39 +35,54 @@ class Field:
             self.level = level_file.read().splitlines()
 
     def blocks_init(self):
+        # состояние блока
+        t, r, b, l = 'top', 'right', 'bottom', 'left'
+        tl, tr, bl, br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
+
         y = 0
         for string in self.level:
             x = 0
             for char in string:
                 if char != 'd':
-                    img_path = 'sprites/blocks/' + char + '.png'
-                    if char in '4':
-                        self.bricks.add(Brick(img_path, x * block_size, y * block_size, 3))
-                    elif char is '23':
-                        self.bricks.add(Brick(img_path, x * block_size + block_size // 2, y * block_size, 2))
-                    elif char in '978c':
-                        self.unbreakable.add(Block(img_path, x * block_size, y * block_size))
-                    elif char is '0':
-                        self.bricks.add(Brick(img_path, x * block_size + block_size // 2, y * block_size, 2))
-                    elif char is '5':
-                        self.unbreakable.add(Block(img_path, x * block_size + block_size // 2, y * block_size))
+                    # bricks addition
+                    if char is '0':
+                        self.bricks.add(Brick(x * bs, y * bs, r))
                     elif char is '1':
-                        self.bricks.add(Brick(img_path, x * block_size, y * block_size + block_size // 2, 2))
+                        self.bricks.add(Brick(x * bs, y * bs, b))
+                    elif char is '2':
+                        self.bricks.add(Brick(x * bs, y * bs, l))
+                    elif char in '3':
+                        self.bricks.add(Brick(x * bs, y * bs, t))
+                    elif char in '4':
+                        self.bricks.add(Brick(x * bs, y * bs))
+                    elif char is 'o':
+                        self.bricks.add(Brick(x * bs, y * bs, tl))
+                    elif char is 'p':
+                        self.bricks.add(Brick(x * bs, y * bs, tr))
+                    elif char is 'q':
+                        self.bricks.add(Brick(x * bs, y * bs, bl))
+                    elif char is 'r':
+                        self.bricks.add(Brick(x * bs, y * bs, br))
+                    # unbreakable addition
+                    elif char is '5':
+                        self.unbreakable.add(Steel(x * bs, y * bs, r))
                     elif char is '6':
-                        self.unbreakable.add(Block(img_path, x * block_size, y * block_size + block_size // 2))
+                        self.unbreakable.add(Steel(x * bs, y * bs, b))
+                    elif char is '7':
+                        self.unbreakable.add(Steel(x * bs, y * bs, l))
+                    elif char is '8':
+                        self.unbreakable.add(Steel(x * bs, y * bs, t))
+                    elif char in '9':
+                        self.unbreakable.add(Steel(x * bs, y * bs))
+                    elif char is 'c':
+                        self.unbreakable.add(Ice(x * bs, y * bs))
+                    # other addition
                     elif char == 'b':
-                        self.plants.add(Block(img_path, x * block_size, y * block_size))
+                        self.plants.add(Bush(x * bs, y * bs))
                     elif char == 'a':
-                        self.water.add(Block(img_path, x * block_size, y * block_size))
-                    elif char is 'z':
-                        self.bricks.add(
-                            Brick(img_path, x * block_size + block_size // 2, y * block_size + block_size // 2, 1))
-                    elif char is 'w':
-                        self.bricks.add(Brick(img_path, x * block_size, y * block_size, 1))
-                    elif char is 'y':
-                        self.bricks.add(Brick(img_path, x * block_size, y * block_size + block_size // 2, 1))
+                        self.water.add(Water(x * bs, y * bs))
                     elif char == 's':
-                        self.base.add(Block(img_path, x * block_size, y * block_size))
+                        self.base.add(City(x * bs, y * bs))
                 x += 1
             y += 1
 
