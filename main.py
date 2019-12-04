@@ -65,7 +65,6 @@ def one_player_loop():
                 ticks = 0
             else:
                 ticks = 300
-
         # Обновление
         tanks_sprites.update()
         field_sprites.update()
@@ -98,9 +97,9 @@ def one_player_loop():
 
             for b in bullets:  # коллизия снарядов и блоков
                 if pygame.sprite.spritecollideany(b, f.bricks) or pygame.sprite.spritecollideany(b, f.unbreakable):
-                    killed = pygame.sprite.spritecollide(b, f.bricks, 0)  # уничтожить блок
-                    for i in killed:
-                        i.damage()
+                    collided = pygame.sprite.spritecollide(b, f.bricks, 0)  # уничтожить блок
+                    for i in collided:
+                        i.take_damage(b.direction)
                     field_sprites = f.init_field_sprites_group()  # изменить поле
                     b.kill()
 
