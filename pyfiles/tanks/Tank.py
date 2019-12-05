@@ -77,13 +77,6 @@ class Tank(pygame.sprite.Sprite):
                 self.rect.top = 0
                 self.is_able_to_move = False
 
-    def shoot(self):
-        if self.shooting_cooldown == 0:
-            bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
-            self.sprites.add(bullet)
-            self.shooting_cooldown = 50
-            self.bullets.append(bullet)
-
     def set_sprite_picture(self):
         if self.direction is 0:
             self.image = self.pic_u
