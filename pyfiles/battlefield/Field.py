@@ -54,7 +54,11 @@ class Field:
                     elif char in '3':
                         self.bricks.add(Brick(x * bs, y * bs, t))
                     elif char in '4':
-                        self.bricks.add(Brick(x * bs, y * bs))
+                        #self.bricks.add(Brick(x * bs, y * bs))
+                        self.bricks.add(Brick(x * bs, y * bs, tl))
+                        self.bricks.add(Brick(x * bs, y * bs, tr))
+                        self.bricks.add(Brick(x * bs, y * bs, bl))
+                        self.bricks.add(Brick(x * bs, y * bs, br))
                     elif char is 'o':
                         self.bricks.add(Brick(x * bs, y * bs, tl))
                     elif char is 'p':

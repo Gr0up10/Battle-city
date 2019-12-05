@@ -97,9 +97,9 @@ def one_player_loop():
 
             for b in bullets:  # коллизия снарядов и блоков
                 if pygame.sprite.spritecollideany(b, f.bricks) or pygame.sprite.spritecollideany(b, f.unbreakable):
-                    collided = pygame.sprite.spritecollide(b, f.bricks, 0)  # уничтожить блок
-                    for i in collided:
-                        i.take_damage(b.direction)
+                    collided = pygame.sprite.spritecollide(b, f.bricks, True)  # уничтожить блок
+                    # for i in collided:                         # это старый функционал разрушаемости блоков.
+                    # i.take_damage(b.direction)
                     field_sprites = f.init_field_sprites_group()  # изменить поле
                     b.kill()
 
