@@ -1,5 +1,5 @@
 import pygame
-from pyfiles.tanks.Player1Tank import Player1Tank
+from pyfiles.tanks.Player1 import Player1
 from pyfiles.battlefield.Field import Field
 from pyfiles.MainMenu import MainMenu
 from pyfiles.Game_over import Game_over
@@ -44,8 +44,8 @@ def one_player_loop():
     screen = pygame.display.set_mode(size)  # инициализация pygame
 
     f = Field()  # инициализация поля, загрузка в field_sprites
-    field_sprites = f.init_field_sprites_group() # группа спрайтов поля
-    decorate = f.plants # группа декоративных спрайтов
+    field_sprites = f.init_field_sprites_group()  # группа спрайтов поля
+    decorate = f.plants  # группа декоративных спрайтов
 
     tank_player = Player1Tank(bullets_of_player1, bullets)  # инициализация танка игрока
     player_group.add(tank_player)  # загрузка танка игрока
@@ -77,8 +77,6 @@ def one_player_loop():
                 ticks = 0
             else:
                 ticks = 300
-
-
         # Обновление
         tanks_sprites.update()
         field_sprites.update()
@@ -98,7 +96,6 @@ def one_player_loop():
             if enemy.alive():
                 enemy.check_collisions(player_field)
 
-
         # отрисовка
         field_sprites.draw(screen)
         tanks_sprites.draw(screen)
@@ -114,23 +111,25 @@ def one_player_loop():
 
         # коллизия снарядов с полем
         if len(bullets) > 0:
-            for b in bullets:             # удалить "мёртвые" снаряды (оптимизация)
+            for b in bullets:  # удалить "мёртвые" снаряды (оптимизация)
                 if not b.alive():
                     bullets.remove(b)
 
-            for b in bullets:           # коллизия снарядов и блоков
+            for b in bullets:  # коллизия снарядов и блоков
                 if pygame.sprite.spritecollideany(b, f.bricks) or pygame.sprite.spritecollideany(b, f.unbreakable):
-                    pygame.sprite.spritecollide(b, f.bricks, 1)  # уничтожить блок
+                    collided = pygame.sprite.spritecollide(b, f.bricks, True)  # уничтожить блок
+                    # for i in collided:                         # это старый функционал разрушаемости блоков.
+                    # i.take_damage(b.direction)
                     field_sprites = f.init_field_sprites_group()  # изменить поле
                     b.kill()
 
-            for b in bullets:           # коллизия снарядов и базы
+            for b in bullets:  # коллизия снарядов и базы
                 if pygame.sprite.spritecollideany(b, f.base):
                     pygame.sprite.spritecollide(b, f.base, 1)
                     game_over = game_over_screen()
                     print('Base destroyed')
 
-            for b in bullets:           # коллизия снарядов и танка игрока
+            for b in bullets:  # коллизия снарядов и танка игрока
                 if pygame.sprite.spritecollide(b, player_group, True):
                     data2 = str(int(data2) - 1)
                     if int(data2) <= 0:
@@ -145,7 +144,7 @@ def one_player_loop():
                         for tank in tanks_sprites:
                             tank.player = tank_player
 
-            for b in bullets:           # коллизия снаряда и противника
+            for b in bullets:  # коллизия снаряда и противника
                 if pygame.sprite.spritecollide(b, tanks_sprites, True):
                     print('enemy destroyed')
                     if data_flag:
@@ -162,7 +161,7 @@ def one_player_loop():
 
         pygame.display.flip()
         pygame.time.wait(10)
-        ticks+=1
+        ticks += 1
 
 
 def main():
