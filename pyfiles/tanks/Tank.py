@@ -86,3 +86,5 @@ class Tank(pygame.sprite.Sprite):
             self.image = self.pic_d
         else:
             self.image = self.pic_l
+
+

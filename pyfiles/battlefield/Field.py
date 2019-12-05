@@ -1,6 +1,5 @@
 import pygame
 
-from pyfiles.blocks.Block import Block
 from pyfiles.blocks.Brick import Brick
 from pyfiles.blocks.Steel import Steel
 from pyfiles.blocks.Bush import Bush
@@ -23,7 +22,8 @@ class Field:
     # группа для базы
     base = pygame.sprite.GroupSingle()
 
-    def __init__(self, level_path='levels/level_1.txt'):
+    def __init__(self, level_num):
+        level_path = 'levels/level_'+level_num+'.txt'
         self.level_path = level_path
         self.level = list()
         self.level_init()

@@ -1,6 +1,7 @@
 import pygame
 import sys 
 
+
 class MainMenu:
     def __init__(self):
         self.size = 800,600
@@ -40,9 +41,9 @@ class MainMenu:
 
                 elif event.type == pygame.KEYDOWN:
 
-                    if chr(event.key) == 'w':
+                    if chr(event.key) == 'w' or event.key == pygame.K_UP:
                         self.integ -= 1
-                    elif chr(event.key) == 's':
+                    elif chr(event.key) == 's' or event.key == pygame.K_DOWN:
                         self.integ += 1
 
                     if self.integ > 2:
@@ -57,7 +58,10 @@ class MainMenu:
                         self.tank_rect.y = 455
 
                     if event.key == 32 or event.key == pygame.K_RETURN:
-                        return 1
+                        if self.integ == 0:
+                            return 1
+                        if self.integ == 1:
+                            return 2
                     # блок для функций
             # if integ == 0 and chr(event.key) == 'space' or chr(event.key) == 'enter':
             #      onePlayerGame() # 1 игрок
