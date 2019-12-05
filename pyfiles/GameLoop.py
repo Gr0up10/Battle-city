@@ -29,7 +29,7 @@ class GameLoop:
     def __init__(self):
         pass
 
-    def one_player_loop(self, level_num, two= False):
+    def one_player_loop(self, level_num, two=False):
         tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
         player1_group = pygame.sprite.Group()
         bullets_group = pygame.sprite.Group()
@@ -40,14 +40,13 @@ class GameLoop:
 
         pygame.font.init()
         font = pygame.font.SysFont('Comic Sans MS', 50, True)
-        enemies_count = '10'
+        enemies_count = '1'
         player_lifes_count = '30'
 
         pygame.init()
         screen = pygame.display.set_mode(size)  # инициализация pygame
 
         f = Field(level_num)  # инициализация поля, загрузка в field_sprites
-        print(level_num)
         field_sprites = f.init_field_sprites_group()  # группа спрайтов поля
         decorate = f.plants  # группа декоративных спрайтов
 
@@ -58,7 +57,7 @@ class GameLoop:
             player2 = Player2(bullets_of_player1, bullets)
             player1_group.add(player2)
 
-        pygame.font.init() # Инициализация текста
+        pygame.font.init()  # Инициализация текста
         enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40, player1_group, '1')  # инициализация врагов
 
         tanks_sprites.add(enemy1)
@@ -67,7 +66,7 @@ class GameLoop:
 
         ticks = 0
         enemies_count_flag = True
-
+        print(field_sprites)
         game_over = False
         while not game_over:
             for event in pygame.event.get():
@@ -88,7 +87,7 @@ class GameLoop:
                     ticks = 300
             # Обновление
             tanks_sprites.update()
-            field_sprites.update()
+            # field_sprites.update()
             player1_group.update()
             bullets_group.update()
             bullets_of_player1.update()

@@ -11,18 +11,17 @@ bs = 50  # block size
 
 
 class Field:
-    # группа разрушаемых блоков
-    bricks = pygame.sprite.Group()
-    # группа неразрушаемых
-    unbreakable = pygame.sprite.Group()
-    # группа для кустов
-    plants = pygame.sprite.Group()
-    # группа для воды
-    water = pygame.sprite.Group()
-    # группа для базы
-    base = pygame.sprite.GroupSingle()
-
     def __init__(self, level_num):
+        # группа разрушаемых блоков
+        self.bricks = pygame.sprite.Group()
+        # группа неразрушаемых
+        self.unbreakable = pygame.sprite.Group()
+        # группа для кустов
+        self.plants = pygame.sprite.Group()
+        # группа для воды
+        self.water = pygame.sprite.Group()
+        # группа для базы
+        self.base = pygame.sprite.GroupSingle()
         level_path = 'levels/level_'+level_num+'.txt'
         self.level_path = level_path
         self.level = list()
@@ -33,6 +32,7 @@ class Field:
         # читаем уровень из файла и сохраняем его в level
         with open(self.level_path, 'r') as level_file:
             self.level = level_file.read().splitlines()
+        print('')
 
     def blocks_init(self):
         # состояние блока
@@ -54,7 +54,7 @@ class Field:
                     elif char in '3':
                         self.bricks.add(Brick(x * bs, y * bs, t))
                     elif char in '4':
-                        #self.bricks.add(Brick(x * bs, y * bs))
+                        # self.bricks.add(Brick(x * bs, y * bs)) # устаревший код
                         self.bricks.add(Brick(x * bs, y * bs, tl))
                         self.bricks.add(Brick(x * bs, y * bs, tr))
                         self.bricks.add(Brick(x * bs, y * bs, bl))

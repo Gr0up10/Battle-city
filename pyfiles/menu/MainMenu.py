@@ -1,10 +1,10 @@
 import pygame
-import sys 
+import sys
 
 
 class MainMenu:
     def __init__(self):
-        self.size = 800,600
+        self.size = 800, 600
         self.colors = {"red": (255, 0, 0),
                        "green": (0, 255, 0),
                        "blue": (0, 0, 255),
@@ -15,9 +15,9 @@ class MainMenu:
         self.integ = 0
         self.tank_imag = pygame.image.load('sprites/tank_for_menu.jpg')
         self.tank_rect = self.tank_imag.get_rect()
-        self.tank_rect.x= 150
-        self.tank_rect.y= 155
-        self.ra =150
+        self.tank_rect.x = 150
+        self.tank_rect.y = 155
+        self.ra = 150
         self.screen = pygame.display.set_mode(self.size)
 
     def show(self):
@@ -91,21 +91,3 @@ class MainMenu:
             pygame.time.wait(10)
 
         sys.exit(0)
-
-        
-
-
-
-
-
-
-
-def main():
-    main_menu = Main_menu()
-    main_menu.show()
-
-
-
-if __name__ == '__main__':
-    main()
-
