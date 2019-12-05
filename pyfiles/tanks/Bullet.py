@@ -17,7 +17,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         if direction == self.DIR_UP:
             self.rect.x = x
-            self.rect.y = y - 45
+            self.rect.y = y - 40
             self.deltaY = -self.speed
         elif direction == self.DIR_RIGHT:
             self.image = pygame.transform.rotate(self.image, 270)
@@ -27,7 +27,7 @@ class Bullet(pygame.sprite.Sprite):
         elif direction == self.DIR_DOWN:
             self.image = pygame.transform.rotate(self.image, 180)
             self.rect.x = x
-            self.rect.y = y + 45
+            self.rect.y = y + 40
             self.deltaY = self.speed
         elif direction == self.DIR_LEFT:
             self.image = pygame.transform.rotate(self.image, 90)

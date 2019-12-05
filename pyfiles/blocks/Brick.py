@@ -13,7 +13,7 @@ class Brick(Block):
                                             (self.bs, self.bs // 2))
         self.full = pygame.transform.scale(pygame.image.load('sprites/blocks/bricks/full.png'),
                                            (self.bs, self.bs))
-        self.quarter = pygame.transform.scale(pygame.image.load('sprites/blocks/bricks/quarter.png'),
+        self.quarter = pygame.transform.scale(pygame.image.load('sprites/blocks/bricks/quarter3.png'),
                                               (self.bs // 2, self.bs // 2))
         self.set_image()
         self.update_rect()
