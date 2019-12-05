@@ -46,10 +46,10 @@ class MainMenu:
                     elif chr(event.key) == 's' or event.key == pygame.K_DOWN:
                         self.integ += 1
 
-                    if self.integ > 2:
+                    if self.integ > 1:      # заменить 1 на 2, когда будем делать редактор карт !!!!!!!!!!
                         self.integ = 0
                     elif self.integ < 0:
-                        self.integ = 2
+                        self.integ = 1       # заменить 1 на 2, когда будем делать редактор карт !!!!!!!!!
                     if self.integ == 0:
                         self.tank_rect.y = 155
                     elif self.integ == 1:
@@ -76,15 +76,15 @@ class MainMenu:
             screen.blit(ts1, (300, self.ra + 10))
             ts2 = font.render(data2, False, self.colors["white"])
             screen.blit(ts2, (300, self.ra * 2 + 10))
-            ts3 = font.render(data3, False, self.colors["white"])
-            screen.blit(ts3, (300, self.ra * 3 + 10))
+            #ts3 = font.render(data3, False, self.colors["white"])          # отрисовка тертьего текста
+            #screen.blit(ts3, (300, self.ra * 3 + 10))
 
             ts0 = font.render(data0, False, self.colors["white"])  # главный текст пробития
             screen.blit(ts0, (280, 50))
 
             screen.blit(self.tank_imag, self.tank_rect)
 
-            for i in range(3):
+            for i in range(2):                              # заменить 2 на 3, когда будем делать редктор карт
                 pygame.draw.rect(screen, self.colors["white"], (200, (i + 1) * self.ra, 400, 50), 2)
 
             pygame.display.flip()

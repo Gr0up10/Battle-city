@@ -3,7 +3,7 @@ import sys
 
 
 class Game_over:
-    def __init__(self, label):
+    def __init__(self, label, color):
         self.size = 800, 600
         self.colors = {"red": (255, 0, 0),
                        "green": (0, 255, 0),
@@ -14,6 +14,7 @@ class Game_over:
                        "grey": (100, 100, 100)}
         self.screen = pygame.display.set_mode(self.size)
         self.data0 = label
+        self.color = self.colors[color]
 
     def show(self):
         pygame.init()
@@ -34,7 +35,7 @@ class Game_over:
 
             screen.fill(self.colors["black"])
 
-            ts0 = font.render(self.data0, False, self.colors["red"])  # главный текст пробития
+            ts0 = font.render(self.data0, False, self.color)  # главный текст пробития
             screen.blit(ts0, (70, 200))
 
             pygame.display.flip()

@@ -2,19 +2,20 @@ import pygame
 
 
 class Block(pygame.sprite.Sprite):
-    bs = 50
-
-    # состояние блока
-    f = 'full'
-    t, r, b, l = 'top', 'right', 'bottom', 'left'
-    tl, tr, bl, br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
-
-    standing = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (bs // 2, bs))
-    lying = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (bs, bs // 2))
-    full = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (bs, bs))
-    quarter = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (bs // 2, bs // 2))
-
     def __init__(self, x, y, state='full'):
+        # состояние блока
+        self.bs = 50
+        self.f = 'full'
+        self.t, self.r, self.b, self.l = 'top', 'right', 'bottom', 'left'
+        self.tl, self.tr, self.bl, self.br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
+
+        self.standing = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (self.bs // 2, self.bs))
+        self.lying = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (self.bs, self.bs // 2))
+        self.full = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'), (self.bs, self.bs))
+        self.quarter = pygame.transform.scale(pygame.image.load('sprites/blocks/void.png'),
+                                              (self.bs // 2, self.bs // 2))
+
+        # начало класса БЛОК
         pygame.sprite.Sprite.__init__(self)
         self.state = state
         self.hp = 3

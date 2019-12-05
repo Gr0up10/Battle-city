@@ -10,8 +10,8 @@ black = 0, 0, 0
 white = 255, 255, 255
 
 
-def game_over_screen(label):
-    screen = Game_over(label)
+def game_over_screen(label, color):
+    screen = Game_over(label, color)
     screen.show()
     return True
 
@@ -32,16 +32,16 @@ class GameLoop:
     def one_player_loop(self, level_num, two=False):
         tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
         player1_group = pygame.sprite.Group()
-        bullets_group = pygame.sprite.Group()
         bullets_of_player1 = pygame.sprite.Group()
         bullets_of_enemies = pygame.sprite.Group()
 
         bullets = list()
 
         pygame.font.init()
-        font = pygame.font.SysFont('Comic Sans MS', 50, True)
-        enemies_count = '1'
-        player_lifes_count = '30'
+        font = pygame.font.SysFont('Comic Sans MS', 30, True)
+
+        enemies_count = '10'
+        player_lifes_count = '3'
 
         pygame.init()
         screen = pygame.display.set_mode(size)  # инициализация pygame
@@ -66,7 +66,7 @@ class GameLoop:
 
         ticks = 0
         enemies_count_flag = True
-        print(field_sprites)
+
         game_over = False
         while not game_over:
             for event in pygame.event.get():
@@ -89,7 +89,6 @@ class GameLoop:
             tanks_sprites.update()
             # field_sprites.update()
             player1_group.update()
-            bullets_group.update()
             bullets_of_player1.update()
             bullets_of_enemies.update()
 
@@ -112,15 +111,14 @@ class GameLoop:
             # отрисовка
             field_sprites.draw(screen)
             tanks_sprites.draw(screen)
-            bullets_group.draw(screen)
             bullets_of_player1.draw(screen)
             bullets_of_enemies.draw(screen)
             player1_group.draw(screen)
             decorate.draw(screen)
-            ts = font.render(enemies_count, False, white)
-            ts2 = font.render(player_lifes_count, False, white)
-            screen.blit(ts, (700, 500))
-            screen.blit(ts2, (700, 400))
+            ts = font.render('Enemies: '+enemies_count, False, white)
+            ts2 = font.render('Lifes: '+player_lifes_count, False, white)
+            screen.blit(ts, (650, 500))
+            screen.blit(ts2, (650, 400))
 
             # коллизия снарядов с полем
             if len(bullets) > 0:
@@ -139,7 +137,7 @@ class GameLoop:
                 for b in bullets:  # коллизия снарядов и базы
                     if pygame.sprite.spritecollideany(b, f.base):
                         pygame.sprite.spritecollide(b, f.base, 1)
-                        game_over = game_over_screen('Game over')
+                        game_over = game_over_screen('Game over', 'red')
                         return 'lose'
 
                 for b in bullets:  # коллизия снарядов и танка игрока
@@ -147,7 +145,7 @@ class GameLoop:
                         collided = pygame.sprite.spritecollide(b, player1_group, False)
                         player_lifes_count = str(int(player_lifes_count) - 1)
                         if int(player_lifes_count) <= 0:
-                            game_over = game_over_screen('Game over')
+                            game_over = game_over_screen('Game over', 'red')
                             return 'lose'
                         else:
                             print('===', len(player1_group))
@@ -162,7 +160,7 @@ class GameLoop:
                             enemies_count = str(int(enemies_count) - 1)
                         if (int(enemies_count)) == 0:
                             enemies_count_flag = False
-                            game_over = game_over_screen('You won!')
+                            game_over = game_over_screen('You won!', 'green')
                             return 'win'
                         b.kill()
                         for enemy in enemy_list:

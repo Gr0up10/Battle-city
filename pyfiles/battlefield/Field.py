@@ -32,7 +32,6 @@ class Field:
         # читаем уровень из файла и сохраняем его в level
         with open(self.level_path, 'r') as level_file:
             self.level = level_file.read().splitlines()
-        print('')
 
     def blocks_init(self):
         # состояние блока
