@@ -1,4 +1,5 @@
 import pygame
+import random
 from pyfiles.tanks.Player1 import Player1
 from pyfiles.battlefield.Field import Field
 from pyfiles.menu.Game_over import Game_over
@@ -8,7 +9,6 @@ from pyfiles.tanks.Player2 import Player2
 size = width, height = 800, 600
 black = 0, 0, 0
 white = 255, 255, 255
-
 
 def game_over_screen(label, color):
     screen = Game_over(label, color)
@@ -79,7 +79,9 @@ class GameLoop:
 
             if ticks >= 300:
                 if len(enemy_list) < 4 and int(enemies_count) > 0:
-                    new_enemy = Enemy(bullets_of_enemies, bullets, 40, 40, player1_group, '2')
+                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
+                    while pygame.sprite.spritecollideany(new_enemy, tanks_sprites): # проверка, что враг не спавнится внутри другого
+                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
                     enemy_list.append(new_enemy)
                     tanks_sprites.add(new_enemy)
                     ticks = 0
@@ -148,7 +150,6 @@ class GameLoop:
                             game_over = game_over_screen('Game over', 'red')
                             return 'lose'
                         else:
-                            print('===', len(player1_group))
                             for i in collided:
                                 i.respawn()
                             for tank in tanks_sprites:
@@ -165,7 +166,10 @@ class GameLoop:
                         b.kill()
                         for enemy in enemy_list:
                             if not enemy.isAlive:
-                                enemy = Enemy(bullets_of_enemies, bullets, 40, 40, player1_group, '2')
+                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40, player1_group, '2')
+                                while pygame.sprite.spritecollideany(new_enemy, tanks_sprites):  # проверка, что враг не спавнится внутри другого
+                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40,player1_group, '2')
+                                enemy = new_enemy
                                 tanks_sprites.add(enemy)
 
                 pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_player1, True, True)  # коллизия снарядов
