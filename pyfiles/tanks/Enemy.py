@@ -23,6 +23,8 @@ class Enemy(Tank):
         self.player = player
         self.direction_glitch = False
         self.mode = mode
+        self.shoot_delay = 250
+        self.last_shot = pygame.time.get_ticks()
 
     def shoot(self):
         if not self.bullet.alive() and self.shooting_cooldown == 0:
@@ -37,7 +39,9 @@ class Enemy(Tank):
         self.deltaY = 0
         self.choose_cmd()
         # выбирает стрелять или нет. Шанс 1 к 11
-        if self.cmd_choice is 1:
+        now = pygame.time.get_ticks()
+        if now - self.last_shot > self.shoot_delay:
+            self.last_shot = now
             self.shoot()
         self.move()
         self.check_collisions()
