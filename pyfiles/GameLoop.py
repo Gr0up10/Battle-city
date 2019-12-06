@@ -31,8 +31,8 @@ class GameLoop:
 
     def one_player_loop(self, level_num, two=False):
         tanks_sprites = pygame.sprite.Group()  # объявляем группы спрайтов
-        player1_group = pygame.sprite.Group()
-        bullets_of_player1 = pygame.sprite.Group()
+        players_group = pygame.sprite.Group()
+        bullets_of_players = pygame.sprite.Group()
         bullets_of_enemies = pygame.sprite.Group()
 
         bullets = list()
@@ -57,15 +57,15 @@ class GameLoop:
         field_sprites = f.init_field_sprites_group()  # группа спрайтов поля
         decorate = f.plants  # группа декоративных спрайтов
 
-        tank_player = Player1(bullets_of_player1, bullets)  # инициализация танка игрока
-        player1_group.add(tank_player)  # загрузка танка игрока
+        tank_player = Player1(bullets_of_players, bullets)  # инициализация танка игрока
+        players_group.add(tank_player)  # загрузка танка игрока
 
         if two:
-            player2 = Player2(bullets_of_player1, bullets)
-            player1_group.add(player2)
+            player2 = Player2(bullets_of_players, bullets)
+            players_group.add(player2)
 
         pygame.font.init()  # Инициализация текста
-        enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40, player1_group, '1')  # инициализация врагов
+        enemy1 = Enemy(bullets_of_enemies, bullets, 40, 40, players_group, '1')  # инициализация врагов
 
         tanks_sprites.add(enemy1)
         enemy_list = list()
@@ -86,9 +86,9 @@ class GameLoop:
 
             if ticks >= 300:
                 if len(enemy_list) < 4 and int(enemies_count) > 0:
-                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
+                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, players_group, '2')
                     while pygame.sprite.spritecollideany(new_enemy, tanks_sprites): # проверка, что враг не спавнится внутри другого
-                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
+                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, players_group, '2')
                     enemy_list.append(new_enemy)
                     tanks_sprites.add(new_enemy)
                     ticks = 0
@@ -97,18 +97,18 @@ class GameLoop:
             # Обновление
             tanks_sprites.update()
             # field_sprites.update()
-            player1_group.update()
-            bullets_of_player1.update()
+            players_group.update()
+            bullets_of_players.update()
             bullets_of_enemies.update()
 
             screen.fill(black)
 
             # подготовка к отработке коллизий
             tanks_field = merge_sprites_group(tanks_sprites, field_sprites)
-            player_field = merge_sprites_group(player1_group, field_sprites)
+            player_field = merge_sprites_group(players_group, field_sprites)
             # коллизия танка
-            for player in player1_group:
-                temp = merge_sprites_group(tanks_field, player1_group)
+            for player in players_group:
+                temp = merge_sprites_group(tanks_field, players_group)
                 temp.remove(player)
                 player.check_collisions(temp)
             for enemy in enemy_list:
@@ -120,9 +120,9 @@ class GameLoop:
             # отрисовка
             field_sprites.draw(screen)
             tanks_sprites.draw(screen)
-            bullets_of_player1.draw(screen)
+            bullets_of_players.draw(screen)
             bullets_of_enemies.draw(screen)
-            player1_group.draw(screen)
+            players_group.draw(screen)
             decorate.draw(screen)
             ts = font.render('Enemies: '+enemies_count, False, white)
             ts2 = font.render('Lifes: '+player_lifes_count, False, white)
@@ -150,8 +150,8 @@ class GameLoop:
                         return 'lose'
 
                 for b in bullets:  # коллизия снарядов и танка игрока
-                    if pygame.sprite.spritecollideany(b, player1_group):
-                        collided = pygame.sprite.spritecollide(b, player1_group, False)
+                    if pygame.sprite.spritecollideany(b, players_group):
+                        collided = pygame.sprite.spritecollide(b, players_group, False)
                         player_lifes_count = str(int(player_lifes_count) - 1)
                         if int(player_lifes_count) <= 0:
                             game_over = game_over_screen('Game over', 'red')
@@ -160,9 +160,9 @@ class GameLoop:
                             for i in collided:
                                 i.respawn()
                             for tank in tanks_sprites:
-                                tank.player = player1_group
+                                tank.player = players_group
 
-                for b in bullets:  # коллизия снаряда и противника
+                for b in bullets_of_players:  # коллизия снаряда и противника
                     if pygame.sprite.spritecollide(b, tanks_sprites, True):
                         if enemies_count_flag:
                             enemies_count = str(int(enemies_count) - 1)
@@ -173,13 +173,13 @@ class GameLoop:
                         b.kill()
                         for enemy in enemy_list:
                             if not enemy.isAlive:
-                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40, player1_group, '2')
+                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40, players_group, '2')
                                 while pygame.sprite.spritecollideany(new_enemy, tanks_sprites):  # проверка, что враг не спавнится внутри другого
-                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40,player1_group, '2')
+                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40,players_group, '2')
                                 enemy = new_enemy
                                 tanks_sprites.add(enemy)
 
-                pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_player1, True, True)  # коллизия снарядов
+                pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_players, True, True)  # коллизия снарядов
 
             pygame.display.flip()
             pygame.time.wait(10)
