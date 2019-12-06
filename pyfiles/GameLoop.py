@@ -46,7 +46,14 @@ class GameLoop:
         pygame.init()
         screen = pygame.display.set_mode(size)  # инициализация pygame
 
+        ui = pygame.sprite.Sprite()
+        ui.image = pygame.image.load('sprites/ui.png')
+        ui.rect = ui.image.get_rect()
+        ui.rect.x = 650
+        ui.rect.y = 0
+
         f = Field(level_num)  # инициализация поля, загрузка в field_sprites
+        f.unbreakable.add(ui)
         field_sprites = f.init_field_sprites_group()  # группа спрайтов поля
         decorate = f.plants  # группа декоративных спрайтов
 
