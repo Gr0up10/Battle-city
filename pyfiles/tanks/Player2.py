@@ -19,7 +19,7 @@ class Player2(Tank):
         self.bullet.kill()
 
     def shoot(self):
-        if not self.bullet.alive() and self.shooting_cooldown == 0:
+        if not self.bullet.alive():         # and self.shooting_cooldown == 0:
             self.bullet = Bullet(self.rect.centerx, self.rect.top, self.direction)
             self.sprites.add(self.bullet)
             self.shooting_cooldown = 50
