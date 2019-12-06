@@ -69,13 +69,13 @@ class Tank(pygame.sprite.Sprite):
                 self.is_able_to_move = False
             if self.rect.left < 0:
                 self.rect.left = 0
-                self.is_able_to_move = False
+                # self.is_able_to_move = False
             if self.rect.bottom > HEIGHT:
                 self.rect.bottom = HEIGHT
                 self.is_able_to_move = False
             if self.rect.top < 0:
                 self.rect.top = 0
-                self.is_able_to_move = False
+                # self.is_able_to_move = False
 
     def set_sprite_picture(self):
         if self.direction is 0:
