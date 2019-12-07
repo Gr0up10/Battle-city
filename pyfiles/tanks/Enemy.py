@@ -22,11 +22,10 @@ class Enemy(Tank):
         self.bullet.kill()
         self.player = player
         self.direction_glitch = False
-        self.mode = modeg
+        self.mode = mode
         self.glitch_set = list()
         self.shoot_delay = 250
         self.last_shot = pygame.time.get_ticks()
-
 
     def shoot(self):
         if not self.bullet.alive() and self.shooting_cooldown == 0:
