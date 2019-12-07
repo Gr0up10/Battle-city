@@ -5,10 +5,13 @@ from pyfiles.battlefield.Field import Field
 from pyfiles.menu.Game_over import Game_over
 from pyfiles.tanks.Enemy import Enemy
 from pyfiles.tanks.Player2 import Player2
+from pyfiles.battlefield.Bonus import Bonus
+from pyfiles.blocks.Brick import Brick
 
 size = width, height = 800, 600
 black = 0, 0, 0
 white = 255, 255, 255
+
 
 def game_over_screen(label, color):
     screen = Game_over(label, color)
@@ -42,6 +45,10 @@ class GameLoop:
 
         enemies_count = '10'
         player_lifes_count = '3'
+
+        life_bonus = pygame.sprite.GroupSingle()
+        grenade_bonus = pygame.sprite.GroupSingle()
+        shovel_bonus = pygame.sprite.GroupSingle()
 
         pygame.init()
         screen = pygame.display.set_mode(size)  # инициализация pygame
@@ -120,6 +127,9 @@ class GameLoop:
             # отрисовка
             field_sprites.draw(screen)
             tanks_sprites.draw(screen)
+            life_bonus.draw(screen)
+            grenade_bonus.draw(screen)
+            shovel_bonus.draw(screen)
             bullets_of_players.draw(screen)
             bullets_of_enemies.draw(screen)
             players_group.draw(screen)
@@ -128,6 +138,33 @@ class GameLoop:
             ts2 = font.render('Lifes: '+player_lifes_count, False, white)
             screen.blit(ts, (660, 500))
             screen.blit(ts2, (660, 400))
+
+            for p in players_group:  # отработка бонусов
+                if pygame.sprite.spritecollide(p, life_bonus, True):
+                    player_lifes_count = str(int(player_lifes_count) + 1)
+                if pygame.sprite.spritecollide(p, grenade_bonus, True):
+                    for e in enemy_list:
+                        if e.isAlive:
+                            e.kill()
+                            enemies_count = str(int(enemies_count) - 1)
+                if pygame.sprite.spritecollide(p, shovel_bonus, True):
+                    tl, tr, bl, br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
+                    field_sprites.add(Brick(5 * 50, 11 * 50, br))
+                    field_sprites.add(Brick(5 * 50, 11 * 50, tr))
+                    field_sprites.add(Brick(5 * 50, 10 * 50, br))
+                    field_sprites.add(Brick(6 * 50, 10 * 50, br))
+                    field_sprites.add(Brick(6 * 50, 10 * 50, bl))
+                    field_sprites.add(Brick(7 * 50, 11 * 50, bl))
+                    field_sprites.add(Brick(7 * 50, 11 * 50, tl))
+                    field_sprites.add(Brick(7 * 50, 10 * 50, bl))
+                    f.bricks.add(Brick(5 * 50, 11 * 50, br))
+                    f.bricks.add(Brick(5 * 50, 11 * 50, tr))
+                    f.bricks.add(Brick(5 * 50, 10 * 50, br))
+                    f.bricks.add(Brick(6 * 50, 10 * 50, br))
+                    f.bricks.add(Brick(6 * 50, 10 * 50, bl))
+                    f.bricks.add(Brick(7 * 50, 11 * 50, bl))
+                    f.bricks.add(Brick(7 * 50, 11 * 50, tl))
+                    f.bricks.add(Brick(7 * 50, 10 * 50, bl))
 
             # коллизия снарядов с полем
             if len(bullets) > 0:
@@ -161,6 +198,10 @@ class GameLoop:
                                 i.respawn()
                             for tank in tanks_sprites:
                                 tank.player = players_group
+                        if int(player_lifes_count) is not 3 and len(life_bonus) == 0 and random.randint(0, 1) == 0:
+                            life = Bonus(random.randint(1, 11) * 50 + 2, random.randint(1, 11) * 50 + 2, 'life')
+                            life_bonus.add(life)
+                        b.kill()
 
                 for b in bullets_of_players:  # коллизия снаряда и противника
                     if pygame.sprite.spritecollide(b, tanks_sprites, True):
@@ -174,10 +215,16 @@ class GameLoop:
                         for enemy in enemy_list:
                             if not enemy.isAlive:
                                 new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, players_group, '2')
-                                while pygame.sprite.spritecollideany(new_enemy, tanks_sprites):  # проверка, что враг не спавнится внутри другого
+                                while pygame.sprite.spritecollideany(new_enemy, tanks_sprites) or pygame.sprite.spritecollideany(new_enemy, players_group):  # проверка, что враг не спавнится внутри другого
                                     new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,players_group, '2')
                                 enemy = new_enemy
                                 tanks_sprites.add(enemy)
+                        if random.randint(0, 10) == 0:
+                            grenade = Bonus(random.randint(1, 11) * 50 + 2, random.randint(1, 11) * 50 + 2, 'grenade')
+                            grenade_bonus.add(grenade)
+                        if random.randint(0, 10) == 1:
+                            shovel = Bonus(random.randint(1, 11) * 50 + 2, random.randint(1, 11) * 50 + 2, 'shovel')
+                            shovel_bonus.add(shovel)
 
                 pygame.sprite.groupcollide(bullets_of_enemies, bullets_of_players, True, True)  # коллизия снарядов
 
