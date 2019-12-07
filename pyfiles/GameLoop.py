@@ -149,14 +149,6 @@ class GameLoop:
                             enemies_count = str(int(enemies_count) - 1)
                 if pygame.sprite.spritecollide(p, shovel_bonus, True):
                     tl, tr, bl, br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
-                    field_sprites.add(Brick(5 * 50, 11 * 50, br))
-                    field_sprites.add(Brick(5 * 50, 11 * 50, tr))
-                    field_sprites.add(Brick(5 * 50, 10 * 50, br))
-                    field_sprites.add(Brick(6 * 50, 10 * 50, br))
-                    field_sprites.add(Brick(6 * 50, 10 * 50, bl))
-                    field_sprites.add(Brick(7 * 50, 11 * 50, bl))
-                    field_sprites.add(Brick(7 * 50, 11 * 50, tl))
-                    field_sprites.add(Brick(7 * 50, 10 * 50, bl))
                     f.bricks.add(Brick(5 * 50, 11 * 50, br))
                     f.bricks.add(Brick(5 * 50, 11 * 50, tr))
                     f.bricks.add(Brick(5 * 50, 10 * 50, br))
