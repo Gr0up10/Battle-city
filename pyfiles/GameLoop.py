@@ -41,7 +41,7 @@ class GameLoop:
         bullets = list()
 
         pygame.font.init()
-        font = pygame.font.SysFont('Comic Sans MS', 30, True)
+        font = pygame.font.SysFont('Comic Sans MS', 24, True)
 
         enemies_count = '10'
         player_lifes_count = '3'
@@ -93,9 +93,9 @@ class GameLoop:
 
             if ticks >= 300:
                 if len(enemy_list) < 4 and int(enemies_count) > 0:
-                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, '2')
+                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, str(random.randint(0, 3)))
                     while pygame.sprite.spritecollideany(new_enemy, tanks_sprites): # проверка, что враг не спавнится внутри другого
-                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, '2')
+                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, str(random.randint(0, 3)))
                     enemy_list.append(new_enemy)
                     tanks_sprites.add(new_enemy)
                     ticks = 0
@@ -136,8 +136,8 @@ class GameLoop:
             decorate.draw(screen)
             ts = font.render('Enemies: '+enemies_count, False, white)
             ts2 = font.render('Lifes: '+player_lifes_count, False, white)
-            screen.blit(ts, (660, 500))
-            screen.blit(ts2, (660, 400))
+            screen.blit(ts, (655, 500))
+            screen.blit(ts2, (655, 400))
 
             for p in players_group:  # отработка бонусов
                 if pygame.sprite.spritecollide(p, life_bonus, True):
@@ -147,6 +147,10 @@ class GameLoop:
                         if e.isAlive:
                             e.kill()
                             enemies_count = str(int(enemies_count) - 1)
+                    if (int(enemies_count)) <= 0:
+                        enemies_count_flag = False
+                        game_over = game_over_screen('You won!', 'green')
+                        return 'win'
                 if pygame.sprite.spritecollide(p, shovel_bonus, True):
                     tl, tr, bl, br = 'top_left', 'top_right', 'bottom_left', 'bottom_right'
                     f.bricks.add(Brick(5 * 50, 11 * 50, br))
@@ -199,16 +203,16 @@ class GameLoop:
                     if pygame.sprite.spritecollide(b, tanks_sprites, True):
                         if enemies_count_flag:
                             enemies_count = str(int(enemies_count) - 1)
-                        if (int(enemies_count)) == 0:
+                        if (int(enemies_count)) <= 0:
                             enemies_count_flag = False
                             game_over = game_over_screen('You won!', 'green')
                             return 'win'
                         b.kill()
                         for enemy in enemy_list:
                             if not enemy.isAlive:
-                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, players_group, '2')
+                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, players_group, str(random.randint(0, 3)))
                                 while pygame.sprite.spritecollideany(new_enemy, tanks_sprites) or pygame.sprite.spritecollideany(new_enemy, players_group):  # проверка, что враг не спавнится внутри другого
-                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,players_group, '2')
+                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,players_group, str(random.randint(0, 3)))
                                 enemy = new_enemy
                                 tanks_sprites.add(enemy)
                         if random.randint(0, 10) == 0:
