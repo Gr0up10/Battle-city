@@ -41,9 +41,10 @@ class Enemy(Tank):
         self.choose_cmd()
         # выбирает стрелять или нет. Шанс 1 к 11
         now = pygame.time.get_ticks()
-        if now - self.last_shot > self.shoot_delay:
-            self.last_shot = now
-            self.shoot()
+        if self.mode is not '3':
+            if now - self.last_shot > self.shoot_delay:
+                self.last_shot = now
+                self.shoot()
         self.move()
         self.check_collisions()
         self.set_sprite_picture()
@@ -90,10 +91,25 @@ class Enemy(Tank):
     def choose_cmd(self):
         # if self.distance <= 0:
         # print('Enemy', self.rect.x, self.rect.y)
-        choice = random.randint(0, 5)
-        if choice <= 4:
-            for p in self.player:
-                if self.mode == '2':
+        for p in self.player:
+            if self.mode == '3':
+                if numbers_close(p.rect.y, self.rect.y):
+                    if p.rect.x > self.rect.x:
+                        self.direction = 1
+                    else:
+                        self.direction = 3
+                    self.shoot()
+                    self.direction_glitch = True
+                elif numbers_close(p.rect.x, self.rect.x):
+                    if p.rect.y > self.rect.y:
+                        self.direction = 2
+                    else:
+                        self.direction = 0
+                    self.shoot()
+                    self.direction_glitch = True
+            if self.mode == '2':
+                choice = random.randint(0, 5)
+                if choice <= 4:
                     if numbers_close(p.rect.y, self.rect.y):
                         if p.rect.x > self.rect.x:
                             self.direction = 1
@@ -109,23 +125,23 @@ class Enemy(Tank):
                         self.shoot()
                         self.direction_glitch = True
 
-                if self.mode == '1':
-                    if numbers_close(p.rect.y, self.rect.y):
-                        if p.rect.x > self.rect.x and self.direction == 1:
-                            self.shoot()
-                        elif p.rect.x < self.rect.x and self.direction == 3:
-                            self.shoot()
-                        self.direction_glitch = True
-                    elif numbers_close(p.rect.x, self.rect.x):
-                        if p.rect.y > self.rect.y and self.direction == 2:
-                            self.shoot()
-                        elif p.rect.y < self.rect.y and self.direction == 0:
-                            self.shoot()
-                        self.direction_glitch = True
+            if self.mode == '1':
+                if numbers_close(p.rect.y, self.rect.y):
+                    if p.rect.x > self.rect.x and self.direction == 1:
+                        self.shoot()
+                    elif p.rect.x < self.rect.x and self.direction == 3:
+                        self.shoot()
+                    self.direction_glitch = True
+                elif numbers_close(p.rect.x, self.rect.x):
+                    if p.rect.y > self.rect.y and self.direction == 2:
+                        self.shoot()
+                    elif p.rect.y < self.rect.y and self.direction == 0:
+                        self.shoot()
+                    self.direction_glitch = True
 
 
 def numbers_close(a, b):
-    if abs(a-b) < 5:
+    if abs(a-b) < 6:
         return True
     else:
         return False
