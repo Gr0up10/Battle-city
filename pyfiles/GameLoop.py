@@ -92,7 +92,7 @@ class GameLoop:
                     enemy_list.remove(enemy)
 
             if ticks >= 300:
-                if len(enemy_list) < 4 and int(enemies_count) > 0:
+                if len(enemy_list) < 4 and int(enemies_count) > 0 and int(enemies_count)-len(enemy_list) > 0:
                     new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, str(random.randint(0, 3)))
                     while pygame.sprite.spritecollideany(new_enemy, tanks_sprites): # проверка, что враг не спавнится внутри другого
                         new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, players_group, str(random.randint(0, 3)))
