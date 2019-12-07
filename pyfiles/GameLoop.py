@@ -208,13 +208,14 @@ class GameLoop:
                             game_over = game_over_screen('You won!', 'green')
                             return 'win'
                         b.kill()
-                        for enemy in enemy_list:
-                            if not enemy.isAlive:
-                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, players_group, str(random.randint(0, 3)))
-                                while pygame.sprite.spritecollideany(new_enemy, tanks_sprites) or pygame.sprite.spritecollideany(new_enemy, players_group):  # проверка, что враг не спавнится внутри другого
-                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,players_group, str(random.randint(0, 3)))
-                                enemy = new_enemy
-                                tanks_sprites.add(enemy)
+                        if int(enemies_count) > 0:
+                            for enemy in enemy_list:
+                                if not enemy.isAlive:
+                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, players_group, str(random.randint(0, 3)))
+                                    while pygame.sprite.spritecollideany(new_enemy, tanks_sprites) or pygame.sprite.spritecollideany(new_enemy, players_group):  # проверка, что враг не спавнится внутри другого
+                                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,players_group, str(random.randint(0, 3)))
+                                    enemy = new_enemy
+                                    tanks_sprites.add(enemy)
                         if random.randint(0, 10) == 0:
                             grenade = Bonus(random.randint(1, 11) * 50 + 2, random.randint(1, 11) * 50 + 2, 'grenade')
                             grenade_bonus.add(grenade)
