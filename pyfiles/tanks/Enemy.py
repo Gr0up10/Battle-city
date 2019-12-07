@@ -73,16 +73,16 @@ class Enemy(Tank):
         if self.direction_glitch:
             self.direction_glitch = False
 
-    def respawn(self):
-        self.__init__(self.sprites, self.bullets, self.rect.x, self.rect.y, self.player, self.mode)
+    # def respawn(self):
+    # self.__init__(self.sprites, self.bullets, self.rect.x, self.rect.y, self.player, self.mode)
 
     def glitch_analyze(self):
         a = (self.rect.x, self.rect.y)
         self.glitch_set.append(a)
 
-        if len(self.glitch_set) > 100:
+        if len(self.glitch_set) > 40:
             if check_equal3(self.glitch_set):
-                print('GLITCH SPOTTED')
+                # print('ANTI GLITCH MOVE')
                 self.move()
                 self.check_collisions()
             self.glitch_set = list()
