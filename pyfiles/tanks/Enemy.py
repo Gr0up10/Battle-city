@@ -23,6 +23,7 @@ class Enemy(Tank):
         self.player = player
         self.direction_glitch = False
         self.mode = mode
+        self.glitch_set = list()
 
     def shoot(self):
         if not self.bullet.alive() and self.shooting_cooldown == 0:
@@ -42,6 +43,7 @@ class Enemy(Tank):
         self.move()
         self.check_collisions()
         self.set_sprite_picture()
+        self.glitch_analyze()
 
     def move(self):
         if self.is_able_to_move is False:
@@ -66,6 +68,20 @@ class Enemy(Tank):
             self.distance = 50 * random.randint(1, 2)
         if self.direction_glitch:
             self.direction_glitch = False
+
+    def respawn(self):
+        self.__init__(self.sprites, self.bullets, self.rect.x, self.rect.y, self.player, self.mode)
+
+    def glitch_analyze(self):
+        a = (self.rect.x, self.rect.y)
+        self.glitch_set.append(a)
+
+        if len(self.glitch_set) > 100:
+            if check_equal3(self.glitch_set):
+                print('GLITCH SPOTTED')
+                self.move()
+                self.check_collisions()
+            self.glitch_set = list()
 
     def choose_cmd(self):
         # if self.distance <= 0:
@@ -109,3 +125,8 @@ def numbers_close(a, b):
         return True
     else:
         return False
+
+
+def check_equal3(lst):
+    return lst[1:] == lst[:-1]
+

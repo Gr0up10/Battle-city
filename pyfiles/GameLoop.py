@@ -86,9 +86,9 @@ class GameLoop:
 
             if ticks >= 300:
                 if len(enemy_list) < 4 and int(enemies_count) > 0:
-                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
+                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, player1_group, '2')
                     while pygame.sprite.spritecollideany(new_enemy, tanks_sprites): # проверка, что враг не спавнится внутри другого
-                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*40, 40, player1_group, '2')
+                        new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12))*50 + 2, 40, player1_group, '2')
                     enemy_list.append(new_enemy)
                     tanks_sprites.add(new_enemy)
                     ticks = 0
@@ -126,8 +126,8 @@ class GameLoop:
             decorate.draw(screen)
             ts = font.render('Enemies: '+enemies_count, False, white)
             ts2 = font.render('Lifes: '+player_lifes_count, False, white)
-            screen.blit(ts, (650, 500))
-            screen.blit(ts2, (650, 400))
+            screen.blit(ts, (660, 500))
+            screen.blit(ts2, (660, 400))
 
             # коллизия снарядов с полем
             if len(bullets) > 0:
@@ -173,9 +173,9 @@ class GameLoop:
                         b.kill()
                         for enemy in enemy_list:
                             if not enemy.isAlive:
-                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40, player1_group, '2')
+                                new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40, player1_group, '2')
                                 while pygame.sprite.spritecollideany(new_enemy, tanks_sprites):  # проверка, что враг не спавнится внутри другого
-                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 40, 40,player1_group, '2')
+                                    new_enemy = Enemy(bullets_of_enemies, bullets, (random.randint(0, 12)) * 50 + 2, 40,player1_group, '2')
                                 enemy = new_enemy
                                 tanks_sprites.add(enemy)
 
